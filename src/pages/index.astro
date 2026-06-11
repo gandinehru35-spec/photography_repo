@@ -1,20 +1,116 @@
 ---
 import { Image } from 'astro:assets';
-import photoOne from '../assets/housefront.avif';
-// Import your other photos here...
+
+// Hero Image
+import heroBg from '../assets/housefront.avif';
+
+// Row 1: Interiors
+import int1 from '../assets/JAR05615.avif';
+import int2 from '../assets/JAR05618.avif';
+import int3 from '../assets/JAR05621.avif';
+import int4 from '../assets/JAR05624.avif';
+import int5 from '../assets/JAR05627.avif';
+
+// Row 2: Aerials
+import drone1 from '../assets/DJI_20260525113858_0168_D.avif';
+import drone2 from '../assets/DJI_20260525113918_0169_D.avif';
+import drone3 from '../assets/DJI_20260525113936_0170_D.avif';
 ---
 
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#141414]">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real Estate Photography</title>
+    <title>Real Estate Visuals</title>
+    <style>
+      /* This ensures the horizontal scrolling rows don't show ugly scrollbars */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
   </head>
-  <body class="bg-gray-50 text-gray-900 p-4 md:p-8">
-    <h1 class="text-4xl font-bold mb-8 text-center">Portfolio</h1>
+  <body class="text-white font-sans antialiased overflow-x-hidden">
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Image src={photoOne} alt="Modern home exterior" class="w-full h-auto rounded-lg shadow-md object-cover" />
+    <nav class="fixed top-0 w-full z-50 bg-gradient-to-b from-black/90 to-transparent transition-all duration-500 py-6">
+      <div class="px-6 md:px-12 flex justify-between items-center">
+        <span class="font-bold text-2xl md:text-3xl text-red-600 tracking-tighter uppercase">Portfolio</span>
+        <div class="space-x-8 text-sm font-semibold tracking-wide">
+          <a href="#interiors" class="hover:text-gray-300 transition duration-300">INTERIORS</a>
+          <a href="#aerials" class="hover:text-gray-300 transition duration-300">AERIALS</a>
+        </div>
       </div>
+    </nav>
+
+    <header class="relative h-[85vh] w-full flex items-end">
+      <div class="absolute inset-0 w-full h-full">
+        <Image src={heroBg} alt="Featured Property" class="w-full h-full object-cover" />
+      </div>
+      
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#141414]/90 via-[#141414]/30 to-transparent"></div>
+      
+      <div class="relative z-10 px-6 md:px-12 pb-24 w-full md:w-2/3">
+        <h1 class="text-5xl md:text-7xl font-bold mb-4 drop-shadow-2xl">The Estate Collection.</h1>
+        <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl text-shadow-md">
+          Cinematic visual storytelling for premium properties. Showcasing the finest real estate across Southern Ontario.
+        </p>
+        <div class="flex gap-4">
+          <button class="bg-white text-black px-8 py-3 rounded font-bold text-lg hover:bg-gray-200 transition flex items-center gap-2">
+            ► View Gallery
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative z-20 pb-20 -mt-10 space-y-16">
+      
+      <section id="interiors" class="px-6 md:px-12">
+        <h2 class="text-xl md:text-2xl font-bold mb-4 text-gray-100 tracking-wide">Trending Interiors</h2>
+        <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 no-scrollbar">
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={int1} alt="Interior 1" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={int2} alt="Interior 2" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={int3} alt="Interior 3" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={int4} alt="Interior 4" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={int5} alt="Interior 5" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+        </div>
+      </section>
+
+      <section id="aerials" class="px-6 md:px-12">
+        <h2 class="text-xl md:text-2xl font-bold mb-4 text-gray-100 tracking-wide">Aerial Exclusives</h2>
+        <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 no-scrollbar">
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={drone1} alt="Drone 1" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={drone2} alt="Drone 2" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+          <div class="snap-start shrink-0 w-[85vw] sm:w-[350px] md:w-[450px] relative group cursor-pointer">
+            <Image src={drone3} alt="Drone 3" class="w-full aspect-video object-cover rounded-md transition-transform duration-300 group-hover:scale-105" />
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="border-t border-[#333] py-12 text-center text-gray-500 bg-[#141414]">
+      <p>&copy; 2026 Estate Visuals. All rights reserved.</p>
+    </footer>
+
   </body>
 </html>
