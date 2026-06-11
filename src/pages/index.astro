@@ -1,11 +1,20 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { Image } from 'astro:assets';
+import photoOne from '../assets/housefront.avif';
+// Import your other photos here...
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Estate Photography</title>
+  </head>
+  <body class="bg-gray-50 text-gray-900 p-4 md:p-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Portfolio</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <Image src={photoOne} alt="Modern home exterior" class="w-full h-auto rounded-lg shadow-md object-cover" />
+      </div>
+  </body>
+</html>
