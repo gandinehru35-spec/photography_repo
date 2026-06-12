@@ -18,41 +18,18 @@ const allItems = Object.entries(imageFiles).map(([path, file]) => {
   };
 });
 
-const heroCollageFilenames = [
-  'JAR05747.avif',
-  'JAR05750.avif',
-  'JAR05753.avif',
-  'JAR05756.avif',
-  'JAR05759.avif'
-];
-
-const heroCollageItems = heroCollageFilenames
-  .map((targetName) =>
-    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
-  )
-  .filter(Boolean);
-
-const heroFileSet = new Set(
-  heroCollageItems.map((item) => item?.filename.toLowerCase())
+const heroItem = allItems.find((item) =>
+  item.filename.toLowerCase().includes('housefront')
 );
 
-const preferredInteriorItems = heroCollageFilenames
-  .map((targetName) =>
-    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
-  )
-  .filter(Boolean)
-  .map((item) => ({
-    ...item,
-    category: 'interior'
-  }));
+const heroBg = heroItem ? heroItem.image : (allItems[0]?.image || '');
+const galleryItems = allItems.filter((item) => item.image !== heroBg);
+const initialGallery = galleryItems.slice(0, 12);
+const extendedGallery = galleryItems.slice(12);
 
-const remainingGalleryItems = allItems.filter(
-  (item) => !heroFileSet.has(item.filename.toLowerCase())
-);
-
-const orderedGalleryItems = [...preferredInteriorItems, ...remainingGalleryItems];
-const initialGallery = orderedGalleryItems.slice(0, 9);
-const extendedGallery = orderedGalleryItems.slice(9);
+const portalBaseUrl = 'https://jarts-client-portal.aneeqpatelcuts.workers.dev';
+const portalLoginUrl = `${portalBaseUrl}/login`;
+const portalSignupUrl = `${portalBaseUrl}/signup`;
 ---
 
 <!doctype html>
@@ -92,117 +69,56 @@ const extendedGallery = orderedGalleryItems.slice(9);
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#testimonials">Reviews</a>
+          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer">Client Login</a>
           <a href="#book" class="nav-cta">Book Now</a>
         </div>
       </div>
     </nav>
 
     <main id="main-content">
-      <header class="hero section-shell">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Premium Property Marketing</p>
+      <header class="hero">
+        {heroBg ? (
+          <Image
+            src={heroBg}
+            alt="Featured J Arts 360 View property media"
+            class="hero-bg"
+            loading="eager"
+            fetchpriority="high"
+          />
+        ) : (
+          <div class="hero-bg hero-fallback"></div>
+        )}
 
-            <h1 class="section-title hero-title">
-              Cinematic visuals for listings that need to stand out instantly.
-            </h1>
+        <div class="hero-overlay"></div>
 
-            <p class="section-copy hero-text">
-              J Arts 360 View delivers refined real estate photography, aerial
-              drone coverage, cinematic walkthroughs, and immersive 3D tours for
-              agents, builders, and homeowners who want stronger presentation and
-              sharper market impact.
-            </p>
+        <div class="hero-content">
+          <p class="eyebrow">Premium Real Estate Media</p>
+          <h1>Precision visual assets engineered for MLS dominance.</h1>
+          <p class="hero-copy">
+            Premium real estate photography, cinematic walkthroughs, drone coverage,
+            and immersive 3D experiences designed to make listings feel stronger,
+            cleaner, and more valuable from the very first click.
+          </p>
 
-            <div class="hero-actions">
-              <a href="#book" class="primary-btn">Book a Shoot</a>
-              <a href="#portfolio" class="secondary-btn">View Portfolio</a>
-            </div>
-
-            <div class="hero-proof">
-              <div>
-                <strong>Fast turnaround</strong>
-                <span>Ready for listing timelines and launch deadlines</span>
-              </div>
-              <div>
-                <strong>MLS-ready delivery</strong>
-                <span>Optimized for websites, listings, and social campaigns</span>
-              </div>
-              <div>
-                <strong>Full media coverage</strong>
-                <span>Photo, drone, video, and 3D tours in one workflow</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-collage glass-card">
-            {heroCollageItems.length > 0 ? (
-              <>
-                <div class="collage-grid">
-                  {heroCollageItems.map((item, index) => (
-                    <div class={`collage-item collage-item-${index + 1}`}>
-                      <Image
-                        src={item.image}
-                        alt={`Featured property collage image ${index + 1}`}
-                        class="collage-image"
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        fetchpriority={index === 0 ? 'high' : 'auto'}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div class="hero-overlay-card">
-                  <p>Curated visuals that make premium listings feel premium before the first showing.</p>
-                </div>
-              </>
-            ) : (
-              <div class="hero-collage-fallback">
-                <p>Add these files in <strong>src/assets</strong>:</p>
-                <p>JAR05747.avif, JAR05750.avif, JAR05753.avif, JAR05756.avif, JAR05759.avif</p>
-              </div>
-            )}
+          <div class="hero-actions">
+            <a href="#book" class="primary-btn">Book a Shoot</a>
+            <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="secondary-btn">
+              Client Login
+            </a>
           </div>
         </div>
       </header>
-
-      <section class="trust-strip">
-        <div class="section-shell trust-grid glass-card">
-          <div>
-            <p class="eyebrow">Professional Finish</p>
-            <p class="section-copy">
-              Balanced lighting, polished edits, and presentation designed to
-              raise perceived value.
-            </p>
-          </div>
-          <div>
-            <p class="eyebrow">Market Focused</p>
-            <p class="section-copy">
-              Built for agents, brokerages, developers, and sellers who need
-              listing-ready media.
-            </p>
-          </div>
-          <div>
-            <p class="eyebrow">Consistent Quality</p>
-            <p class="section-copy">
-              Reliable visual standards across interiors, exteriors, aerials,
-              and walkthrough coverage.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section id="services" class="section-pad">
         <div class="section-shell">
           <div class="section-heading">
             <div>
               <p class="eyebrow">Services</p>
-              <h2 class="section-title">Media packages built for serious listings.</h2>
+              <h2 class="section-title">Media packages built for stronger listings.</h2>
             </div>
             <p class="section-copy section-heading-copy">
-              From polished photography to drone media and 3D tours, every
-              service is designed to help properties feel more premium and more
-              persuasive online.
+              Clean composition, polished edits, and high-impact visuals for agents,
+              developers, and property owners who want presentation to feel premium.
             </p>
           </div>
 
@@ -210,8 +126,8 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <article class="service-card">
               <h3>Listing Photography</h3>
               <p>
-                Interior and exterior coverage with clean composition, balanced
-                light, and MLS-ready delivery for modern property marketing.
+                Optically perfected interior and exterior captures calibrated for
+                absolute clarity.
               </p>
               <p class="service-price">From $120 <span>+ HST</span></p>
             </article>
@@ -219,8 +135,7 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <article class="service-card">
               <h3>Cinematic Video</h3>
               <p>
-                Smooth walkthrough visuals that highlight flow, scale, finishes,
-                and the strongest selling points of the property.
+                Fluid, story-driven architectural walkthroughs stabilizing spatial flow.
               </p>
               <p class="service-price">From $150 <span>+ HST</span></p>
             </article>
@@ -228,8 +143,7 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <article class="service-card">
               <h3>Drone Aerial</h3>
               <p>
-                Elevated perspectives that show curb presence, lot context,
-                surroundings, and neighborhood appeal in a stronger way.
+                Elevated perspectives securing topographical and neighborhood context.
               </p>
               <p class="service-price">From $99 <span>+ HST</span></p>
             </article>
@@ -237,44 +151,10 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <article class="service-card">
               <h3>3D Virtual Tours</h3>
               <p>
-                Immersive guided viewing that helps remote buyers understand the
-                layout and experience the property more confidently.
+                Fully immersive spatial twins allowing unrestricted global access 24/7.
               </p>
               <p class="service-price">From $200 <span>+ HST</span></p>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-pad featured-section">
-        <div class="section-shell featured-project glass-card">
-          <div class="featured-copy">
-            <p class="eyebrow">Featured Project</p>
-            <h2 class="featured-title">Luxury residential marketing package</h2>
-            <p class="section-copy">
-              A complete visual package combining interior photography, aerial
-              coverage, and cinematic walkthrough media for a premium listing
-              presentation.
-            </p>
-
-            <ul class="featured-list">
-              <li>Interior and exterior image coverage</li>
-              <li>Drone aerial capture for context and scale</li>
-              <li>Video-ready visual storytelling for listing promotion</li>
-            </ul>
-          </div>
-
-          <div class="featured-visual">
-            {heroCollageItems[0] ? (
-              <Image
-                src={heroCollageItems[0].image}
-                alt="Featured luxury residential showcase"
-                class="featured-image"
-                loading="lazy"
-              />
-            ) : (
-              <div class="featured-fallback">Featured image not found</div>
-            )}
           </div>
         </div>
       </section>
@@ -351,25 +231,22 @@ const extendedGallery = orderedGalleryItems.slice(9);
 
           <div class="reviews-grid">
             <article class="quote-card">
-              <p>
-                “Beautifully clicked the pictures. Professional, prompt and
-                friendly service.”
-              </p>
+              <p>“Beautifully clicked the pictures. Professional, prompt & friendly service.”</p>
               <strong>Monika Bansal</strong>
             </article>
 
             <article class="quote-card">
               <p>
-                “Photos they produced were absolutely stunning. Commitment to
-                customer satisfaction is truly impressive.”
+                “Photos they produced were absolutely stunning... Commitment to customer
+                satisfaction is truly impressive. Highly recommend!”
               </p>
               <strong>Sushaant Dhamijaa</strong>
             </article>
 
             <article class="quote-card">
               <p>
-                “Consistently delivers outstanding results. Communication and
-                scheduling support have been excellent.”
+                “Consistently delivers outstanding results. Communication about schedules
+                is key for us—highly recommended!”
               </p>
               <strong>Benson Crew</strong>
             </article>
@@ -383,9 +260,21 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <p class="eyebrow">Book a Shoot</p>
             <h2 class="section-title">Ready to elevate your next listing?</h2>
             <p class="section-copy booking-copy">
-              Reserve a shoot date for your next property or reach out directly
-              for pricing, availability, and tailored media packages.
+              Select your visual package below. Calendar availability is strictly enforced.
+              For returning clients, use the portal to log in, manage bookings, and access
+              future order history.
             </p>
+
+            <div class="booking-actions portal-actions">
+              <a href="tel:6477103982" class="primary-btn">Call Now</a>
+              <a href="mailto:jartsguelph@gmail.com" class="secondary-btn">Email Us</a>
+              <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="secondary-btn">
+                Client Login
+              </a>
+              <a href={portalSignupUrl} target="_blank" rel="noopener noreferrer" class="secondary-btn">
+                Portal Signup
+              </a>
+            </div>
 
             <div class="contact-stack">
               <div class="contact-item">
@@ -409,12 +298,13 @@ const extendedGallery = orderedGalleryItems.slice(9);
             <div class="booking-placeholder">
               <h3>Booking calendar launching shortly</h3>
               <p>
-                For immediate inquiries, call or email directly to reserve your
-                preferred shoot date.
+                For immediate inquiries, call or email directly, or use the client portal
+                to create an account and access booking tools.
               </p>
               <div class="booking-actions">
-                <a href="tel:6477103982" class="primary-btn">Call Now</a>
-                <a href="mailto:jartsguelph@gmail.com" class="secondary-btn">Email Us</a>
+                <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="primary-btn">
+                  Go to Client Portal
+                </a>
               </div>
             </div>
           </div>
@@ -428,7 +318,9 @@ const extendedGallery = orderedGalleryItems.slice(9);
           <div class="footer-emblem" aria-hidden="true">J</div>
           <div>
             <p class="footer-brand">J Arts 360 View</p>
-            <p class="footer-copy">Premium real estate visual storytelling for listings that need better presentation.</p>
+            <p class="footer-copy">
+              Premium real estate visual storytelling for listings that need better presentation.
+            </p>
           </div>
         </div>
 
@@ -436,6 +328,7 @@ const extendedGallery = orderedGalleryItems.slice(9);
           <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#book">Contact</a>
+          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer">Client Portal</a>
         </div>
       </div>
     </footer>

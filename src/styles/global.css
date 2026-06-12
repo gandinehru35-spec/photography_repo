@@ -987,3 +987,7 @@ button {
     padding: 4rem 0;
   }
 }
+
+.portal-actions {
+  margin-bottom: 2rem;
+}
