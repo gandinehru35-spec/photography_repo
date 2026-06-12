@@ -18,25 +18,53 @@ const allItems = Object.entries(imageFiles).map(([path, file]) => {
   };
 });
 
-const heroItem = allItems.find((item) =>
-  item.filename.toLowerCase().includes('housefront')
+const heroCollageFilenames = [
+  'JAR05747.avif',
+  'JAR05750.avif',
+  'JAR05753.avif',
+  'JAR05756.avif',
+  'JAR05759.avif'
+];
+
+const heroCollageItems = heroCollageFilenames
+  .map((targetName) =>
+    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
+  )
+  .filter(Boolean);
+
+const heroFileSet = new Set(
+  heroCollageItems.map((item) => item?.filename.toLowerCase())
 );
 
-const heroBg = heroItem ? heroItem.image : allItems[0]?.image;
-const galleryItems = allItems.filter((item) => item.image !== heroBg);
-const initialGallery = galleryItems.slice(0, 12);
-const extendedGallery = galleryItems.slice(12);
+const preferredInteriorItems = heroCollageFilenames
+  .map((targetName) =>
+    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
+  )
+  .filter(Boolean)
+  .map((item) => ({
+    ...item,
+    category: 'interior'
+  }));
+
+const remainingGalleryItems = allItems.filter(
+  (item) => !heroFileSet.has(item.filename.toLowerCase())
+);
+
+const orderedGalleryItems = [...preferredInteriorItems, ...remainingGalleryItems];
+
+const initialGallery = orderedGalleryItems.slice(0, 9);
+const extendedGallery = orderedGalleryItems.slice(9);
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>J Arts 360 View | Premium Real Estate Media</title>
     <meta
       name="description"
-      content="Premium real estate photography, video, drone media, and 3D tours for listings that need to stand out."
+      content="Premium real estate photography, drone media, cinematic video, and 3D tours for listings that deserve better presentation."
     />
   </head>
 
@@ -73,13 +101,14 @@ const extendedGallery = galleryItems.slice(12);
             <p class="eyebrow">Premium Property Marketing</p>
 
             <h1 class="section-title hero-title">
-              Cinematic visuals for listings that need to sell faster.
+              Cinematic visuals for listings that need to stand out instantly.
             </h1>
 
             <p class="section-copy hero-text">
-              J Arts 360 View creates polished photography, cinematic video,
-              drone coverage, and immersive 3D tours that help agents, builders,
-              and homeowners present every property with confidence.
+              J Arts 360 View delivers refined real estate photography, aerial
+              drone coverage, cinematic walkthroughs, and immersive 3D tours for
+              agents, builders, and homeowners who want stronger presentation and
+              sharper market impact.
             </p>
 
             <div class="hero-actions">
@@ -87,27 +116,49 @@ const extendedGallery = galleryItems.slice(12);
               <a href="#portfolio" class="secondary-btn">View Portfolio</a>
             </div>
 
-            <div class="metric-row">
-              <div class="metric-pill">Photography</div>
-              <div class="metric-pill">Drone</div>
-              <div class="metric-pill">Video Walkthroughs</div>
-              <div class="metric-pill">3D Tours</div>
+            <div class="hero-proof">
+              <div>
+                <strong>Fast turnaround</strong>
+                <span>Ready for listing timelines and launch deadlines</span>
+              </div>
+              <div>
+                <strong>MLS-ready delivery</strong>
+                <span>Optimized for websites, listings, and social campaigns</span>
+              </div>
+              <div>
+                <strong>Full media coverage</strong>
+                <span>Photo, drone, video, and 3D tours in one workflow</span>
+              </div>
             </div>
           </div>
 
-          <div class="hero-media glass-card">
-            {heroBg && (
-              <Image
-                src={heroBg}
-                alt="Featured luxury property"
-                class="hero-image"
-                loading="eager"
-                fetchpriority="high"
-              />
+          <div class="hero-collage glass-card">
+            {heroCollageItems.length > 0 ? (
+              <>
+                <div class="collage-grid">
+                  {heroCollageItems.map((item, index) => (
+                    <div class={`collage-item collage-item-${index + 1}`}>
+                      <Image
+                        src={item.image}
+                        alt={`Featured property collage image ${index + 1}`}
+                        class="collage-image"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={index === 0 ? 'high' : 'auto'}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div class="hero-overlay-card">
+                  <p>Curated visuals that make premium listings feel premium before the first showing.</p>
+                </div>
+              </>
+            ) : (
+              <div class="hero-collage-fallback">
+                <p>Add these files in <strong>src/assets</strong>:</p>
+                <p>JAR05747.avif, JAR05750.avif, JAR05753.avif, JAR05756.avif, JAR05759.avif</p>
+              </div>
             )}
-            <div class="hero-overlay-card">
-              <p>Trusted visual presentation for modern real estate listings.</p>
-            </div>
           </div>
         </div>
       </header>
@@ -115,22 +166,24 @@ const extendedGallery = galleryItems.slice(12);
       <section class="trust-strip">
         <div class="section-shell trust-grid glass-card">
           <div>
-            <p class="eyebrow">Fast Turnaround</p>
+            <p class="eyebrow">Professional Finish</p>
             <p class="section-copy">
-              Edited media delivered quickly so listings can go live without
-              delay.
+              Balanced lighting, polished edits, and presentation designed to
+              raise perceived value.
             </p>
           </div>
           <div>
-            <p class="eyebrow">MLS Ready</p>
+            <p class="eyebrow">Market Focused</p>
             <p class="section-copy">
-              Assets prepared for listing platforms, websites, and social media.
+              Built for agents, brokerages, developers, and sellers who need
+              listing-ready media.
             </p>
           </div>
           <div>
-            <p class="eyebrow">Premium Finish</p>
+            <p class="eyebrow">Consistent Quality</p>
             <p class="section-copy">
-              Lighting, composition, and editing designed to elevate each space.
+              Reliable visual standards across interiors, exteriors, aerials,
+              and walkthrough coverage.
             </p>
           </div>
         </div>
@@ -144,47 +197,81 @@ const extendedGallery = galleryItems.slice(12);
               <h2 class="section-title">Media packages built for serious listings.</h2>
             </div>
             <p class="section-copy section-heading-copy">
-              Every package is designed to help properties look sharper, feel
-              more valuable, and attract more attention from buyers.
+              From polished photography to drone media and 3D tours, every
+              service is designed to help properties feel more premium and more
+              persuasive online.
             </p>
           </div>
 
           <div class="services-grid">
-            <div class="service-card">
+            <article class="service-card">
               <h3>Listing Photography</h3>
               <p>
-                Interior and exterior photography with balanced lighting,
-                natural color, and MLS-ready delivery.
+                Interior and exterior coverage with clean composition, balanced
+                light, and MLS-ready delivery for modern property marketing.
               </p>
               <p class="service-price">From $120 <span>+ HST</span></p>
-            </div>
+            </article>
 
-            <div class="service-card">
+            <article class="service-card">
               <h3>Cinematic Video</h3>
               <p>
-                Walkthrough video that highlights flow, scale, and the strongest
-                selling features of the property.
+                Smooth walkthrough visuals that highlight flow, scale, finishes,
+                and the strongest selling points of the property.
               </p>
               <p class="service-price">From $150 <span>+ HST</span></p>
-            </div>
+            </article>
 
-            <div class="service-card">
+            <article class="service-card">
               <h3>Drone Aerial</h3>
               <p>
-                Elevated perspectives that show frontage, lot shape,
-                neighborhood context, and surrounding appeal.
+                Elevated perspectives that show curb presence, lot context,
+                surroundings, and neighborhood appeal in a stronger way.
               </p>
               <p class="service-price">From $99 <span>+ HST</span></p>
-            </div>
+            </article>
 
-            <div class="service-card">
+            <article class="service-card">
               <h3>3D Virtual Tours</h3>
               <p>
-                Immersive tours that allow buyers to explore spaces remotely and
-                understand the layout more clearly.
+                Immersive guided viewing that helps remote buyers understand the
+                layout and experience the property more confidently.
               </p>
               <p class="service-price">From $200 <span>+ HST</span></p>
-            </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad featured-section">
+        <div class="section-shell featured-project glass-card">
+          <div class="featured-copy">
+            <p class="eyebrow">Featured Project</p>
+            <h2 class="featured-title">Luxury residential marketing package</h2>
+            <p class="section-copy">
+              A complete visual package combining interior photography, aerial
+              coverage, and cinematic walkthrough media for a premium listing
+              presentation.
+            </p>
+
+            <ul class="featured-list">
+              <li>Interior and exterior image coverage</li>
+              <li>Drone aerial capture for context and scale</li>
+              <li>Video-ready visual storytelling for listing promotion</li>
+            </ul>
+          </div>
+
+          <div class="featured-visual">
+            {heroCollageItems[0] ? (
+              <Image
+                src={heroCollageItems[0].image}
+                alt="Featured luxury residential showcase"
+                class="featured-image"
+                loading="lazy"
+              />
+            ) : (
+              <div class="featured-fallback">Featured image not found</div>
+            )}
           </div>
         </div>
       </section>
@@ -198,9 +285,9 @@ const extendedGallery = galleryItems.slice(12);
             </div>
 
             <div class="filter-row" id="filter-controls">
-              <button class="filter-btn active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="interior">Interiors</button>
-              <button class="filter-btn" data-filter="aerial">Aerials</button>
+              <button class="filter-btn active" data-filter="all" type="button">All</button>
+              <button class="filter-btn" data-filter="interior" type="button">Interiors</button>
+              <button class="filter-btn" data-filter="aerial" type="button">Aerials</button>
             </div>
           </div>
 
@@ -211,10 +298,11 @@ const extendedGallery = galleryItems.slice(12);
                 data-category={item.category}
                 data-highres={item.image.src}
                 aria-label={`Open ${item.category} image`}
+                type="button"
               >
                 <Image
                   src={item.image}
-                  alt={`J Arts 360 View ${item.category} work`}
+                  alt={`J Arts 360 View ${item.category} gallery work`}
                   class="gallery-image"
                   loading="lazy"
                 />
@@ -227,10 +315,11 @@ const extendedGallery = galleryItems.slice(12);
                 data-category={item.category}
                 data-highres={item.image.src}
                 aria-label={`Open ${item.category} image`}
+                type="button"
               >
                 <Image
                   src={item.image}
-                  alt={`J Arts 360 View ${item.category} work`}
+                  alt={`J Arts 360 View ${item.category} gallery work`}
                   class="gallery-image"
                   loading="lazy"
                 />
@@ -240,7 +329,9 @@ const extendedGallery = galleryItems.slice(12);
 
           {extendedGallery.length > 0 && (
             <div class="load-more-wrap" id="load-more-container">
-              <button id="load-more-btn" class="secondary-btn">Load More</button>
+              <button id="load-more-btn" class="secondary-btn" type="button">
+                Load More
+              </button>
             </div>
           )}
         </div>
@@ -251,34 +342,34 @@ const extendedGallery = galleryItems.slice(12);
           <div class="section-heading">
             <div>
               <p class="eyebrow">Client Reviews</p>
-              <h2 class="section-title">Proof that presentation matters.</h2>
+              <h2 class="section-title">Trusted by clients who value presentation.</h2>
             </div>
           </div>
 
           <div class="reviews-grid">
-            <div class="quote-card">
+            <article class="quote-card">
               <p>
-                "Beautifully clicked the pictures. Professional, prompt &
-                friendly service."
+                “Beautifully clicked the pictures. Professional, prompt and
+                friendly service.”
               </p>
               <strong>Monika Bansal</strong>
-            </div>
+            </article>
 
-            <div class="quote-card">
+            <article class="quote-card">
               <p>
-                "Photos they produced were absolutely stunning. Commitment to
-                customer satisfaction is truly impressive."
+                “Photos they produced were absolutely stunning. Commitment to
+                customer satisfaction is truly impressive.”
               </p>
               <strong>Sushaant Dhamijaa</strong>
-            </div>
+            </article>
 
-            <div class="quote-card">
+            <article class="quote-card">
               <p>
-                "Consistently delivers outstanding results. Communication and
-                scheduling support have been excellent."
+                “Consistently delivers outstanding results. Communication and
+                scheduling support have been excellent.”
               </p>
               <strong>Benson Crew</strong>
-            </div>
+            </article>
           </div>
         </div>
       </section>
@@ -289,8 +380,8 @@ const extendedGallery = galleryItems.slice(12);
             <p class="eyebrow">Book a Shoot</p>
             <h2 class="section-title">Ready to elevate your next listing?</h2>
             <p class="section-copy booking-copy">
-              Choose the right media package and reserve your preferred date.
-              You can also reach out directly using the details below.
+              Reserve a shoot date for your next property or reach out directly
+              for pricing, availability, and tailored media packages.
             </p>
 
             <div class="contact-stack">
@@ -298,10 +389,12 @@ const extendedGallery = galleryItems.slice(12);
                 <span>T</span>
                 <a href="tel:6477103982">647 710 3982</a>
               </div>
+
               <div class="contact-item">
                 <span>E</span>
                 <a href="mailto:jartsguelph@gmail.com">jartsguelph@gmail.com</a>
               </div>
+
               <div class="contact-item">
                 <span>HQ</span>
                 <span>63 Candlewood Drive, Guelph</span>
@@ -311,7 +404,15 @@ const extendedGallery = galleryItems.slice(12);
 
           <div class="booking-panel">
             <div class="booking-placeholder">
-              Cal.com embed goes here
+              <h3>Booking calendar launching shortly</h3>
+              <p>
+                For immediate inquiries, call or email directly to reserve your
+                preferred shoot date.
+              </p>
+              <div class="booking-actions">
+                <a href="tel:6477103982" class="primary-btn">Call Now</a>
+                <a href="mailto:jartsguelph@gmail.com" class="secondary-btn">Email Us</a>
+              </div>
             </div>
           </div>
         </div>
@@ -319,14 +420,35 @@ const extendedGallery = galleryItems.slice(12);
     </main>
 
     <footer class="site-footer">
-      <p>© 2026 J Arts 360 View. Premium real estate visual storytelling.</p>
+      <div class="section-shell footer-inner">
+        <div>
+          <p class="footer-brand">J Arts 360 View</p>
+          <p class="footer-copy">Premium real estate visual storytelling for listings that need better presentation.</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#book">Contact</a>
+        </div>
+      </div>
     </footer>
 
     <div id="lightbox-modal" class="lightbox-modal hidden" aria-hidden="true">
-      <button id="lightbox-close" class="lightbox-close" aria-label="Close image viewer">
+      <button
+        id="lightbox-close"
+        class="lightbox-close"
+        aria-label="Close image viewer"
+        type="button"
+      >
         ✕
       </button>
-      <img id="lightbox-image" src="" alt="Expanded gallery image" class="lightbox-image" />
+      <img
+        id="lightbox-image"
+        src=""
+        alt="Expanded gallery image"
+        class="lightbox-image"
+      />
     </div>
 
     <script>
@@ -341,6 +463,7 @@ const extendedGallery = galleryItems.slice(12);
         filterBtns.forEach((btn) => {
           btn.addEventListener('click', (e) => {
             filterBtns.forEach((b) => b.classList.remove('active'));
+
             const target = e.currentTarget;
             target.classList.add('active');
             currentFilter = target.getAttribute('data-filter') || 'all';
@@ -394,9 +517,11 @@ const extendedGallery = galleryItems.slice(12);
         triggers.forEach((trigger) => {
           trigger.addEventListener('click', () => {
             const highResSource = trigger.getAttribute('data-highres');
+
             if (modalImage && highResSource) {
               modalImage.setAttribute('src', highResSource);
             }
+
             modal?.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
           });
