@@ -69,10 +69,8 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Mobile overlay backdrop -->
     <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
 
-    <!-- ═══════════════ NAV ═══════════════ -->
     <nav class="site-nav" id="site-nav">
       <div class="nav-inner">
         <a href="/" class="brand-mark cinematic-brand" aria-label="J Arts 360 View — home">
@@ -111,10 +109,8 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
       </div>
     </nav>
 
-    <!-- ═══════════════ MAIN ═══════════════ -->
     <main id="main-content">
 
-      <!-- HERO -->
       <header class="hero section-shell" id="hero">
         <div class="hero-grid">
           <div class="hero-copy">
@@ -130,12 +126,9 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             </p>
 
             <div class="hero-actions">
-              <a href="#" class="primary-btn btn-ripple"
-                 data-cal-link="jarts-joa3wv/30min"
-                 data-cal-namespace="30min"
-                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+              <a href="#services" class="primary-btn btn-ripple">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Book a Shoot
+                Build a Package
               </a>
               <a href="#portfolio" class="secondary-btn">View Portfolio</a>
             </div>
@@ -156,38 +149,19 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             </div>
           </div>
 
-          <!-- hero collage -->
-          <div class="hero-collage glass-card">
-            {heroCollageItems.length > 0 ? (
-              <>
-                <div class="collage-grid">
-                  {heroCollageItems.map((item, index) => (
-                    <div class={`collage-item collage-item-${index + 1}`}>
-                      <Image
-                        src={item!.image}
-                        alt={`Featured property image ${index + 1}`}
-                        class="collage-image"
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        fetchpriority={index === 0 ? 'high' : 'auto'}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div class="hero-overlay-card">
-                  <p>Curated visuals that make premium listings feel premium before the first showing.</p>
-                </div>
-              </>
-            ) : (
-              <div class="hero-collage-fallback">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                <p>Add <strong>JAR05747–JAR05759.avif</strong> to <code>src/assets/</code></p>
-              </div>
-            )}
+          <div class="hero-curated glass-card">
+            <div class="hero-curated-inner">
+              <div class="curated-emblem" aria-hidden="true">J</div>
+              <h3 class="curated-title">Explore Our Visual Standard</h3>
+              <p class="curated-text">Access our exclusive portfolio of cinematic real estate media designed for modern marketing.</p>
+              <a href="#portfolio" class="primary-btn btn-ripple">
+                Unlock Portfolio
+              </a>
+            </div>
           </div>
         </div>
       </header>
 
-      <!-- TRUST STRIP -->
       <section class="trust-strip" aria-label="Why J Arts">
         <div class="section-shell trust-grid glass-card">
           <div>
@@ -205,7 +179,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         </div>
       </section>
 
-      <!-- SERVICES -->
       <section id="services" class="section-pad">
         <div class="section-shell">
           <div class="section-heading">
@@ -215,12 +188,11 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             </div>
             <p class="section-copy section-heading-copy">
               From polished photography to drone media and 3D tours, every service is
-              designed to help properties feel more premium and more persuasive online.
+              designed to help properties feel more premium and more persuasive online. Combine services to build your package.
             </p>
           </div>
 
           <div class="services-grid">
-            <!-- card 1 -->
             <article class="service-card reveal-item">
               <div class="service-icon" aria-hidden="true">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -228,16 +200,12 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Listing Photography</h3>
               <p>Interior and exterior coverage with clean composition, balanced light, and MLS-ready delivery for modern property marketing.</p>
               <p class="service-price">From $120 <span>+ HST</span></p>
-              <a href="#" class="service-book-btn btn-ripple"
-                 data-cal-link="jarts-joa3wv/30min"
-                 data-cal-namespace="30min"
-                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-                Book this service
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <button class="toggle-service-btn" data-service="Listing Photography" data-price="120" type="button">
+                <span class="btn-text">Add to Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </article>
 
-            <!-- card 2 -->
             <article class="service-card reveal-item">
               <div class="service-icon" aria-hidden="true">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
@@ -245,16 +213,12 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Cinematic Video</h3>
               <p>Smooth walkthrough visuals that highlight flow, scale, finishes, and the strongest selling points of the property.</p>
               <p class="service-price">From $150 <span>+ HST</span></p>
-              <a href="#" class="service-book-btn btn-ripple"
-                 data-cal-link="jarts-joa3wv/30min"
-                 data-cal-namespace="30min"
-                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-                Book this service
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <button class="toggle-service-btn" data-service="Cinematic Video" data-price="150" type="button">
+                <span class="btn-text">Add to Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </article>
 
-            <!-- card 3 -->
             <article class="service-card reveal-item">
               <div class="service-icon" aria-hidden="true">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -262,16 +226,12 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Drone Aerial</h3>
               <p>Elevated perspectives that show curb presence, lot context, surroundings, and neighborhood appeal in a stronger way.</p>
               <p class="service-price">From $99 <span>+ HST</span></p>
-              <a href="#" class="service-book-btn btn-ripple"
-                 data-cal-link="jarts-joa3wv/30min"
-                 data-cal-namespace="30min"
-                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-                Book this service
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <button class="toggle-service-btn" data-service="Drone Aerial" data-price="99" type="button">
+                <span class="btn-text">Add to Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </article>
 
-            <!-- card 4 -->
             <article class="service-card reveal-item">
               <div class="service-icon" aria-hidden="true">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
@@ -279,19 +239,29 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>3D Virtual Tours</h3>
               <p>Immersive guided viewing that helps remote buyers understand the layout and experience the property more confidently.</p>
               <p class="service-price">From $200 <span>+ HST</span></p>
-              <a href="#" class="service-book-btn btn-ripple"
-                 data-cal-link="jarts-joa3wv/30min"
-                 data-cal-namespace="30min"
-                 data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-                Book this service
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <button class="toggle-service-btn" data-service="3D Virtual Tours" data-price="200" type="button">
+                <span class="btn-text">Add to Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </article>
+
+            <article class="service-card reveal-item">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 22v-8"/><path d="M6 14V2"/><path d="M6 4h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H6"/></svg>
+              </div>
+              <h3>Signboard Placement</h3>
+              <p>Professional installation and takedown of standard real estate signage at the property boundary.</p>
+              <p class="service-price">From $50 <span>+ HST</span></p>
+  
+              <button class="toggle-service-btn" data-service="Signboard Placement" data-price="50" type="button">
+                <span class="btn-text">Add to Package</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </article>
           </div>
         </div>
       </section>
 
-      <!-- FEATURED PROJECT -->
       <section class="section-pad featured-section" aria-label="Featured project">
         <div class="section-shell featured-project glass-card">
           <div class="featured-copy">
@@ -306,10 +276,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <li>Drone aerial capture for context and scale</li>
               <li>Video-ready visual storytelling for listing promotion</li>
             </ul>
-            <a href="#" class="primary-btn btn-ripple featured-cta"
-               data-cal-link="jarts-joa3wv/30min"
-               data-cal-namespace="30min"
-               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+            <a href="#book" class="primary-btn btn-ripple featured-cta">
               Book a Full Package
             </a>
           </div>
@@ -328,7 +295,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         </div>
       </section>
 
-      <!-- PORTFOLIO -->
       <section id="portfolio" class="section-pad portfolio-section">
         <div class="section-shell">
           <div class="section-heading portfolio-head">
@@ -382,7 +348,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         </div>
       </section>
 
-      <!-- TESTIMONIALS -->
       <section id="testimonials" class="section-pad">
         <div class="section-shell">
           <div class="section-heading">
@@ -419,7 +384,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         </div>
       </section>
 
-      <!-- BOOKING -->
       <section id="book" class="section-pad booking-section">
         <div class="section-shell booking-layout">
           <div class="booking-info">
@@ -445,7 +409,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               </div>
             </div>
 
-            <!-- Portal strip -->
             <div class="portal-cta-strip">
               <p class="portal-cta-label">Returning client?</p>
               <div class="portal-cta-actions">
@@ -461,7 +424,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             </div>
           </div>
 
-          <!-- booking panel -->
           <div class="booking-panel">
             <div class="booking-placeholder">
               <div class="booking-icon" aria-hidden="true">
@@ -484,9 +446,16 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         </div>
       </section>
 
+      <div id="package-builder-bar" class="package-builder-bar hidden">
+        <div class="package-info">
+          <span class="package-count">0 Services Selected</span>
+          <span class="package-total">Total: $0</span>
+        </div>
+        <button id="package-checkout-btn" class="primary-btn package-checkout-btn">Continue to Booking</button>
+      </div>
+
     </main>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
     <footer class="site-footer">
       <div class="section-shell footer-inner">
         <div class="footer-brand-block">
@@ -510,7 +479,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
       </div>
     </footer>
 
-    <!-- ═══════════════ LIGHTBOX ═══════════════ -->
     <div id="lightbox-modal" class="lightbox-modal hidden"
          role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
       <button id="lightbox-close" class="lightbox-close" aria-label="Close viewer" type="button">✕</button>
@@ -524,8 +492,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
       <div class="lightbox-counter" id="lightbox-counter" aria-live="polite"></div>
     </div>
 
-   <!-- Cal inline embed code begins -->
-<div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-30min"></div>
+   <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-30min"></div>
 <script type="text/javascript">
   (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
 Cal("init", "30min", {origin:"https://app.cal.com"});
@@ -540,10 +507,7 @@ Cal.config.forwardQueryParams = true;
 
   Cal.ns["30min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
   </script>
-  <!-- Cal inline embed code ends -->
-
-    <!-- ═══════════════ APP SCRIPTS ═══════════════ -->
-    <script>
+  <script>
       document.addEventListener('DOMContentLoaded', () => {
 
         /* ─── SCROLL REVEAL ─── */
@@ -696,8 +660,73 @@ Cal.config.forwardQueryParams = true;
           if (e.key === 'ArrowRight')  navigate(1);
         });
 
+        /* ─── PACKAGE BUILDER & CAL.COM INTEGRATION ─── */
+        const toggleBtns = document.querySelectorAll('.toggle-service-btn');
+        const builderBar = document.getElementById('package-builder-bar');
+        const countDisplay = document.querySelector('.package-count');
+        const totalDisplay = document.querySelector('.package-total');
+        const checkoutBtn = document.getElementById('package-checkout-btn');
+
+        let selectedServices = new Map();
+
+        toggleBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const service = (this as HTMLElement).dataset.service;
+            const price = parseInt((this as HTMLElement).dataset.price || '0');
+            const btnText = this.querySelector('.btn-text');
+
+            if (selectedServices.has(service)) {
+              selectedServices.delete(service);
+              this.classList.remove('selected');
+              if (btnText) btnText.textContent = 'Add to Package';
+            } else {
+              selectedServices.set(service, price);
+              this.classList.add('selected');
+              if (btnText) btnText.textContent = 'Remove Service';
+            }
+
+            updateBuilderBar();
+          });
+        });
+
+        function updateBuilderBar() {
+          let total = 0;
+          selectedServices.forEach(price => total += price);
+          
+          if (selectedServices.size > 0) {
+            builderBar?.classList.remove('hidden');
+            if (countDisplay) countDisplay.textContent = `${selectedServices.size} Service${selectedServices.size > 1 ? 's' : ''} Selected`;
+            if (totalDisplay) totalDisplay.textContent = `Estimated: $${total} + HST`;
+          } else {
+            builderBar?.classList.add('hidden');
+          }
+        }
+
+        checkoutBtn?.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          let notes = "Client has requested the following package:\\n\\n";
+          selectedServices.forEach((price, service) => {
+            notes += `- ${service} ($${price})\\n`;
+          });
+          notes += `\\nTotal Estimated: $${Array.from(selectedServices.values()).reduce((a, b) => a + b, 0)} + HST`;
+
+          // Check if Cal.com script has loaded and push the custom payload
+          if (window.Cal && window.Cal.ns && window.Cal.ns["30min"]) {
+            window.Cal.ns["30min"]("modal", {
+              calLink: "jarts-joa3wv/30min",
+              config: {
+                notes: notes,
+                layout: "month_view"
+              }
+            });
+          } else {
+            // Fallback just in case the calendar embed fails to load
+            window.location.href = "#book";
+          }
+        });
+
       });
     </script>
-
   </body>
 </html>
