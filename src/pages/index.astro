@@ -2,6 +2,9 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 
+const portalApiBase = (import.meta.env.PUBLIC_PORTAL_API_BASE || 'https://jarts-client-portal.aneeqpatelcuts.workers.dev').replace(/\/$/, '');
+const calLink = import.meta.env.PUBLIC_CAL_LINK || 'jarts/30min';
+
 const imageFiles = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/*.{avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG,svg,SVG}',
   { eager: true }
@@ -26,30 +29,23 @@ const heroCollageFilenames = [
 ];
 
 const heroCollageItems = heroCollageFilenames
-  .map((targetName) =>
-    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
-  )
+  .map((targetName) => allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase()))
   .filter(Boolean);
 
 const heroFileSet = new Set(heroCollageItems.map((item) => item?.filename.toLowerCase()));
 
 const preferredInteriorItems = heroCollageFilenames
-  .map((targetName) =>
-    allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase())
-  )
+  .map((targetName) => allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase()))
   .filter(Boolean)
   .map((item) => ({ ...item, category: 'interior' }));
 
-const remainingGalleryItems = allItems.filter(
-  (item) => !heroFileSet.has(item.filename.toLowerCase())
-);
-
+const remainingGalleryItems = allItems.filter((item) => !heroFileSet.has(item.filename.toLowerCase()));
 const orderedGalleryItems = [...preferredInteriorItems, ...remainingGalleryItems];
 const initialGallery = orderedGalleryItems.slice(0, 9);
 const extendedGallery = orderedGalleryItems.slice(9);
 
 const portalBaseUrl = 'https://jarts-client-portal.aneeqpatelcuts.workers.dev';
-const portalLoginUrl  = `${portalBaseUrl}/login`;
+const portalLoginUrl = `${portalBaseUrl}/login`;
 const portalSignupUrl = `${portalBaseUrl}/signup`;
 ---
 
@@ -88,17 +84,15 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           </span>
         </a>
 
-        <button class="mobile-menu-btn" id="mobile-menu-btn"
-                aria-label="Open navigation menu" aria-expanded="false"
-                aria-controls="nav-links" type="button">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links" type="button">
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
         </button>
 
         <div class="nav-links" id="nav-links" role="navigation" aria-label="Main navigation">
-          <a href="#services"     class="nav-link">Services</a>
-          <a href="#portfolio"    class="nav-link">Portfolio</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#portfolio" class="nav-link">Portfolio</a>
           <a href="#testimonials" class="nav-link">Reviews</a>
           <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="nav-link nav-portal-link">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -110,7 +104,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
     </nav>
 
     <main id="main-content">
-
       <header class="hero section-shell" id="hero">
         <div class="hero-grid">
           <div class="hero-copy">
@@ -154,9 +147,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <div class="curated-emblem" aria-hidden="true">J</div>
               <h3 class="curated-title">Explore Our Visual Standard</h3>
               <p class="curated-text">Access our exclusive portfolio of cinematic real estate media designed for modern marketing.</p>
-              <a href="#portfolio" class="primary-btn btn-ripple">
-                Unlock Portfolio
-              </a>
+              <a href="#portfolio" class="primary-btn btn-ripple">Unlock Portfolio</a>
             </div>
           </div>
         </div>
@@ -200,7 +191,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Listing Photography</h3>
               <p>Interior and exterior coverage with clean composition, balanced light, and MLS-ready delivery for modern property marketing.</p>
               <p class="service-price">From $120 <span>+ HST</span></p>
-              <button class="toggle-service-btn" data-service="Listing Photography" data-price="120" type="button">
+              <button class="toggle-service-btn" data-code="listing-photography" data-service="Listing Photography" data-price="120" type="button">
                 <span class="btn-text">Add to Package</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               </button>
@@ -213,7 +204,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Cinematic Video</h3>
               <p>Smooth walkthrough visuals that highlight flow, scale, finishes, and the strongest selling points of the property.</p>
               <p class="service-price">From $150 <span>+ HST</span></p>
-              <button class="toggle-service-btn" data-service="Cinematic Video" data-price="150" type="button">
+              <button class="toggle-service-btn" data-code="cinematic-video" data-service="Cinematic Video" data-price="150" type="button">
                 <span class="btn-text">Add to Package</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               </button>
@@ -226,7 +217,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Drone Aerial</h3>
               <p>Elevated perspectives that show curb presence, lot context, surroundings, and neighborhood appeal in a stronger way.</p>
               <p class="service-price">From $99 <span>+ HST</span></p>
-              <button class="toggle-service-btn" data-service="Drone Aerial" data-price="99" type="button">
+              <button class="toggle-service-btn" data-code="drone-aerial" data-service="Drone Aerial" data-price="99" type="button">
                 <span class="btn-text">Add to Package</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               </button>
@@ -239,7 +230,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>3D Virtual Tours</h3>
               <p>Immersive guided viewing that helps remote buyers understand the layout and experience the property more confidently.</p>
               <p class="service-price">From $200 <span>+ HST</span></p>
-              <button class="toggle-service-btn" data-service="3D Virtual Tours" data-price="200" type="button">
+              <button class="toggle-service-btn" data-code="3d-virtual-tours" data-service="3D Virtual Tours" data-price="200" type="button">
                 <span class="btn-text">Add to Package</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               </button>
@@ -252,7 +243,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h3>Signboard Placement</h3>
               <p>Professional installation and takedown of standard real estate signage at the property boundary.</p>
               <p class="service-price">From $50 <span>+ HST</span></p>
-              <button class="toggle-service-btn" data-service="Signboard Placement" data-price="50" type="button">
+              <button class="toggle-service-btn" data-code="signboard-placement" data-service="Signboard Placement" data-price="50" type="button">
                 <span class="btn-text">Add to Package</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               </button>
@@ -275,18 +266,11 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <li>Drone aerial capture for context and scale</li>
               <li>Video-ready visual storytelling for listing promotion</li>
             </ul>
-            <a href="#book" class="primary-btn btn-ripple featured-cta">
-              Book a Full Package
-            </a>
+            <a href="#book" class="primary-btn btn-ripple featured-cta">Book a Full Package</a>
           </div>
           <div class="featured-visual">
             {heroCollageItems[0] ? (
-              <Image
-                src={heroCollageItems[0]!.image}
-                alt="Featured luxury residential showcase"
-                class="featured-image"
-                loading="lazy"
-              />
+              <Image src={heroCollageItems[0]!.image} alt="Featured luxury residential showcase" class="featured-image" loading="lazy" />
             ) : (
               <div class="featured-fallback">Add hero images to see featured project</div>
             )}
@@ -302,36 +286,24 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <h2 class="section-title">Selected property visuals.</h2>
             </div>
             <div class="filter-row" id="filter-controls" role="group" aria-label="Filter by category">
-              <button class="filter-btn active" data-filter="all"      type="button">All</button>
-              <button class="filter-btn"         data-filter="interior" type="button">Interiors</button>
-              <button class="filter-btn"         data-filter="aerial"   type="button">Aerials</button>
+              <button class="filter-btn active" data-filter="all" type="button">All</button>
+              <button class="filter-btn" data-filter="interior" type="button">Interiors</button>
+              <button class="filter-btn" data-filter="aerial" type="button">Aerials</button>
             </div>
           </div>
 
           <div class="gallery-grid" id="gallery-grid">
             {initialGallery.map((item) => (
-              <button class="gallery-item lightbox-trigger"
-                      data-category={item.category}
-                      data-highres={item.image.src}
-                      aria-label={`View full size ${item.category} photo`}
-                      type="button">
-                <Image src={item.image}
-                       alt={`J Arts 360 View — ${item.category} property photo`}
-                       class="gallery-image" loading="lazy" />
+              <button class="gallery-item lightbox-trigger" data-category={item.category} data-highres={item.image.src} aria-label={`View full size ${item.category} photo`} type="button">
+                <Image src={item.image} alt={`J Arts 360 View — ${item.category} property photo`} class="gallery-image" loading="lazy" />
                 <span class="gallery-overlay" aria-hidden="true">
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                 </span>
               </button>
             ))}
             {extendedGallery.map((item) => (
-              <button class="gallery-item lightbox-trigger extra-image hidden"
-                      data-category={item.category}
-                      data-highres={item.image.src}
-                      aria-label={`View full size ${item.category} photo`}
-                      type="button">
-                <Image src={item.image}
-                       alt={`J Arts 360 View — ${item.category} property photo`}
-                       class="gallery-image" loading="lazy" />
+              <button class="gallery-item lightbox-trigger extra-image hidden" data-category={item.category} data-highres={item.image.src} aria-label={`View full size ${item.category} photo`} type="button">
+                <Image src={item.image} alt={`J Arts 360 View — ${item.category} property photo`} class="gallery-image" loading="lazy" />
                 <span class="gallery-overlay" aria-hidden="true">
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                 </span>
@@ -364,21 +336,9 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           </div>
 
           <div class="reviews-grid">
-            <article class="quote-card reveal-item">
-              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
-              <p>"Beautifully clicked the pictures. Professional, prompt and friendly service."</p>
-              <footer><strong>Monika Bansal</strong></footer>
-            </article>
-            <article class="quote-card reveal-item">
-              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
-              <p>"Photos they produced were absolutely stunning. Commitment to customer satisfaction is truly impressive. Highly recommend!"</p>
-              <footer><strong>Sushaant Dhamijaa</strong></footer>
-            </article>
-            <article class="quote-card reveal-item">
-              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
-              <p>"Consistently delivers outstanding results. Communication and scheduling support have been excellent."</p>
-              <footer><strong>Benson Crew</strong></footer>
-            </article>
+            <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Beautifully clicked the pictures. Professional, prompt and friendly service."</p><footer><strong>Monika Bansal</strong></footer></article>
+            <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Photos they produced were absolutely stunning. Commitment to customer satisfaction is truly impressive. Highly recommend!"</p><footer><strong>Sushaant Dhamijaa</strong></footer></article>
+            <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Consistently delivers outstanding results. Communication and scheduling support have been excellent."</p><footer><strong>Benson Crew</strong></footer></article>
           </div>
         </div>
       </section>
@@ -389,23 +349,15 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             <p class="eyebrow">Book a Shoot</p>
             <h2 class="section-title">Ready to elevate<br/>your next listing?</h2>
             <p class="section-copy booking-copy">
-              Reserve a shoot date for your next property or reach out directly for
-              pricing, availability, and tailored media packages.
+              Reserve a shoot date for your next property or reach out directly for pricing,
+              availability, and tailored media packages. Pick your services first, then save
+              your request and open the live booking calendar.
             </p>
 
             <div class="contact-stack">
-              <a href="tel:6477103982" class="contact-item contact-link">
-                <span class="contact-badge">T</span>
-                <span>647 710 3982</span>
-              </a>
-              <a href="mailto:jarts360view@gmail.com" class="contact-item contact-link">
-                <span class="contact-badge">E</span>
-                <span>jarts360view@gmail.com</span>
-              </a>
-              <div class="contact-item">
-                <span class="contact-badge">HQ</span>
-                <span>63 Candlewood Drive, Guelph</span>
-              </div>
+              <a href="tel:6477103982" class="contact-item contact-link"><span class="contact-badge">T</span><span>647 710 3982</span></a>
+              <a href="mailto:jarts360view@gmail.com" class="contact-item contact-link"><span class="contact-badge">E</span><span>jarts360view@gmail.com</span></a>
+              <div class="contact-item"><span class="contact-badge">HQ</span><span>63 Candlewood Drive, Guelph</span></div>
             </div>
 
             <div class="portal-cta-strip">
@@ -428,19 +380,56 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
               <div class="booking-icon" aria-hidden="true">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
-              <h3>Book your shoot</h3>
-              <p>Choose a time that works for you directly in our live calendar. Instant confirmation sent to your email.</p>
+              <h3>Build your package first</h3>
+              <p>Select one or more services above. Your selections, pricing, address, and notes will be saved before the calendar opens.</p>
               <div class="booking-actions">
-                <a href="#" class="primary-btn btn-ripple"
-                   data-cal-link="jarts/30min"
-                   data-cal-namespace="30min"
-                   data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+                <button id="scroll-to-request-btn" class="primary-btn btn-ripple" type="button">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  Open Booking Calendar
-                </a>
+                  Complete Booking Request
+                </button>
                 <a href="mailto:jarts360view@gmail.com" class="secondary-btn">Email Us</a>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div id="booking-request-panel" class="section-shell booking-request-standalone mt-10">
+          <div class="glass-card booking-request-card" style="padding: 2rem; margin-top: 2rem;">
+            <p class="eyebrow">Complete your request</p>
+            <form id="booking-request-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="client-full-name" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Full name</label>
+                <input id="client-full-name" name="fullName" type="text" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="Client full name" required />
+              </div>
+              <div>
+                <label for="client-email" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Email</label>
+                <input id="client-email" name="email" type="email" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="client@email.com" required />
+              </div>
+              <div>
+                <label for="client-phone" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Phone</label>
+                <input id="client-phone" name="phone" type="tel" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="6471234567" />
+              </div>
+              <div>
+                <label for="property-address" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Property address</label>
+                <input id="property-address" name="propertyAddress" type="text" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="63 Candlewood Drive, Guelph" />
+              </div>
+              <div class="md:col-span-2">
+                <label for="client-notes" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Project notes</label>
+                <textarea id="client-notes" name="notes" rows="5" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="Property size, preferred date, add-ons, access notes, twilight request, staging notes..."></textarea>
+              </div>
+              <div class="md:col-span-2 border border-white/10 rounded-sm p-4 bg-[#0A0A0A]">
+                <p class="text-xs font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Selected package</p>
+                <h3 id="request-package-summary" class="text-xl font-bold text-white mb-2">No package selected</h3>
+                <div id="request-package-items" class="space-y-2 text-sm text-gray-300 mb-4"></div>
+                <p id="request-package-total" class="text-sm text-gray-400">Estimated total: $0 + HST</p>
+                <input id="request-package-summary-input" type="hidden" name="packageSummary" />
+                <input id="request-package-total-input" type="hidden" name="displayTotal" />
+              </div>
+              <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-2">
+                <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save request and open calendar</button>
+                <p id="booking-request-status" class="text-sm text-gray-400 flex items-center"></p>
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -448,11 +437,10 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
       <div id="package-builder-bar" class="package-builder-bar hidden">
         <div class="package-info">
           <span class="package-count">0 Services Selected</span>
-          <span class="package-total">Total: $0</span>
+          <span class="package-total">Estimated: $0 + HST</span>
         </div>
-        <button id="package-checkout-btn" class="primary-btn package-checkout-btn">Continue to Booking</button>
+        <button id="package-checkout-btn" class="primary-btn package-checkout-btn" type="button">Continue to Booking</button>
       </div>
-
     </main>
 
     <footer class="site-footer">
@@ -478,56 +466,78 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
       </div>
     </footer>
 
-    <div id="lightbox-modal" class="lightbox-modal hidden"
-         role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+    <div id="lightbox-modal" class="lightbox-modal hidden" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
       <button id="lightbox-close" class="lightbox-close" aria-label="Close viewer" type="button">✕</button>
-      <button id="lightbox-prev"  class="lightbox-nav lightbox-prev" aria-label="Previous image" type="button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
+      <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous image" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
       <img id="lightbox-image" src="" alt="Full-size property photo" class="lightbox-image" />
-      <button id="lightbox-next"  class="lightbox-nav lightbox-next" aria-label="Next image" type="button">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+      <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Next image" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
       <div class="lightbox-counter" id="lightbox-counter" aria-live="polite"></div>
     </div>
 
-  <script type="text/javascript">
-    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", "30min", {origin:"https://app.cal.com"});
-  Cal.config = Cal.config || {};
-  Cal.config.forwardQueryParams = true;
+    <script type="text/javascript">
+      (function (C, A, L) {
+        let p = function (a, ar) { a.q.push(ar); };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement('script')).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === 'string') {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ['initNamespace', namespace]);
+            } else {
+              p(cal, ar);
+            }
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, 'https://app.cal.com/embed/embed.js', 'init');
 
-    Cal.ns["30min"]("floatingButton", {"calLink":"jarts/30min","config":{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}}); 
-    Cal.ns["30min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-  </script>
-  <script>
+      Cal('init', '30min', { origin: 'https://app.cal.com' });
+      Cal.config = Cal.config || {};
+      Cal.config.forwardQueryParams = true;
+      Cal.ns['30min']('ui', { hideEventTypeDetails: false, layout: 'month_view' });
+    </script>
+
+    <script define:vars={{ portalApiBase, calLink }}>
       document.addEventListener('DOMContentLoaded', () => {
-
-        /* ─── SCROLL REVEAL ─── */
         const revealObs = new IntersectionObserver((entries) => {
-          entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } });
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObs.unobserve(entry.target);
+            }
+          });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.reveal-item').forEach((el) => revealObs.observe(el));
 
-        /* ─── NAV ACTIVE HIGHLIGHT ─── */
-        const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-link[href^="#"]');
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
         const sectionObs = new IntersectionObserver((entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) {
-              navLinks.forEach((l) => l.classList.toggle('nav-active', l.getAttribute('href') === `#${e.target.id}`));
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              navLinks.forEach((link) => link.classList.toggle('nav-active', link.getAttribute('href') === `#${entry.target.id}`));
             }
           });
         }, { threshold: 0.35 });
-        document.querySelectorAll('section[id], header[id]').forEach((s) => sectionObs.observe(s));
+        document.querySelectorAll('section[id], header[id]').forEach((section) => sectionObs.observe(section));
 
-        /* ─── NAV SCROLL SHADOW ─── */
         const nav = document.getElementById('site-nav');
         window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
-        /* ─── MOBILE MENU ─── */
-        const menuBtn  = document.getElementById('mobile-menu-btn') as HTMLButtonElement;
-        const navEl    = document.getElementById('nav-links');
-        const overlay  = document.getElementById('mobile-overlay');
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navEl = document.getElementById('nav-links');
+        const overlay = document.getElementById('mobile-overlay');
         const closeMenu = () => {
           navEl?.classList.remove('open');
           menuBtn?.classList.remove('open');
@@ -535,32 +545,31 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           menuBtn?.setAttribute('aria-label', 'Open navigation menu');
           overlay?.classList.remove('visible');
         };
+
         menuBtn?.addEventListener('click', () => {
           const open = navEl?.classList.toggle('open');
-          menuBtn.classList.toggle('open', open);
-          menuBtn.setAttribute('aria-expanded', String(open));
+          menuBtn.classList.toggle('open', !!open);
+          menuBtn.setAttribute('aria-expanded', String(!!open));
           menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-          overlay?.classList.toggle('visible', open);
+          overlay?.classList.toggle('visible', !!open);
         });
+
         overlay?.addEventListener('click', closeMenu);
         navEl?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-        /* ─── RIPPLE EFFECT ─── */
-        document.querySelectorAll<HTMLElement>('.btn-ripple').forEach((btn) => {
+        document.querySelectorAll('.btn-ripple').forEach((btn) => {
           btn.addEventListener('click', function (e) {
-            const me = e as MouseEvent;
-            const rect = (this as HTMLElement).getBoundingClientRect();
+            const rect = this.getBoundingClientRect();
             const rpl = document.createElement('span');
             rpl.className = 'ripple-effect';
-            rpl.style.cssText = `left:${me.clientX - rect.left}px;top:${me.clientY - rect.top}px`;
-            (this as HTMLElement).appendChild(rpl);
+            rpl.style.cssText = `left:${e.clientX - rect.left}px;top:${e.clientY - rect.top}px`;
+            this.appendChild(rpl);
             rpl.addEventListener('animationend', () => rpl.remove());
           });
         });
 
-        /* ─── PROOF TOOLTIPS ─── */
-        document.querySelectorAll<HTMLElement>('.proof-item[data-tooltip]').forEach((el) => {
+        document.querySelectorAll('.proof-item[data-tooltip]').forEach((el) => {
           const tip = document.createElement('div');
           tip.className = 'proof-tooltip';
           tip.textContent = el.dataset.tooltip || '';
@@ -568,11 +577,10 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           el.appendChild(tip);
         });
 
-        /* ─── GALLERY FILTER ─── */
-        const filterBtns       = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-        const galleryItems     = document.querySelectorAll<HTMLElement>('.gallery-item');
-        const loadMoreWrap     = document.getElementById('load-more-container');
-        const loadMoreBtn      = document.getElementById('load-more-btn');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const loadMoreWrap = document.getElementById('load-more-container');
+        const loadMoreBtn = document.getElementById('load-more-btn');
         let currentFilter = 'all';
 
         filterBtns.forEach((btn) => {
@@ -583,8 +591,12 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             galleryItems.forEach((item) => {
               const match = currentFilter === 'all' || item.dataset.category === currentFilter;
               const isExtra = item.classList.contains('extra-image');
-              if (match && !isExtra) { item.classList.remove('hidden'); item.style.animation = 'galleryFadeIn 0.35s ease forwards'; }
-              else item.classList.add('hidden');
+              if (match && !isExtra) {
+                item.classList.remove('hidden');
+                item.style.animation = 'galleryFadeIn 0.35s ease forwards';
+              } else {
+                item.classList.add('hidden');
+              }
             });
             if (loadMoreWrap) loadMoreWrap.style.display = currentFilter === 'all' ? 'flex' : 'none';
           });
@@ -598,22 +610,20 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           loadMoreWrap?.remove();
         });
 
-        /* ─── LIGHTBOX ─── */
-        const lbModal   = document.getElementById('lightbox-modal');
-        const lbImg     = document.getElementById('lightbox-image') as HTMLImageElement | null;
-        const lbClose   = document.getElementById('lightbox-close');
-        const lbPrev    = document.getElementById('lightbox-prev');
-        const lbNext    = document.getElementById('lightbox-next');
+        const lbModal = document.getElementById('lightbox-modal');
+        const lbImg = document.getElementById('lightbox-image');
+        const lbClose = document.getElementById('lightbox-close');
+        const lbPrev = document.getElementById('lightbox-prev');
+        const lbNext = document.getElementById('lightbox-next');
         const lbCounter = document.getElementById('lightbox-counter');
         let lbIndex = 0;
-        let lbImages: string[] = [];
+        let lbImages = [];
 
-        const getVisible = () =>
-          Array.from(document.querySelectorAll<HTMLElement>('.lightbox-trigger:not(.hidden)'))
-            .map((el) => el.dataset.highres || '');
-
-        const openLb = (idx: number) => {
-          lbImages = getVisible(); lbIndex = idx;
+        const getVisible = () => Array.from(document.querySelectorAll('.lightbox-trigger:not(.hidden)')).map((el) => el.dataset.highres || '');
+        const updateCounter = () => { if (lbCounter) lbCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`; };
+        const openLb = (idx) => {
+          lbImages = getVisible();
+          lbIndex = idx;
           if (!lbImages[lbIndex] || !lbImg) return;
           lbImg.src = lbImages[lbIndex];
           lbModal?.classList.remove('hidden');
@@ -621,106 +631,227 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           document.body.style.overflow = 'hidden';
           updateCounter();
           const multi = lbImages.length > 1;
-          if (lbPrev) (lbPrev as HTMLElement).style.display = multi ? 'flex' : 'none';
-          if (lbNext) (lbNext as HTMLElement).style.display = multi ? 'flex' : 'none';
+          if (lbPrev) lbPrev.style.display = multi ? 'flex' : 'none';
+          if (lbNext) lbNext.style.display = multi ? 'flex' : 'none';
         };
-
         const closeLb = () => {
           lbModal?.classList.add('hidden');
           lbModal?.setAttribute('aria-hidden', 'true');
           if (lbImg) lbImg.src = '';
           document.body.style.overflow = '';
         };
-
-        const navigate = (dir: number) => {
+        const navigate = (dir) => {
+          if (!lbImages.length) return;
           lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
-          if (lbImg) { lbImg.style.opacity = '0'; setTimeout(() => { if (lbImg) { lbImg.src = lbImages[lbIndex]; lbImg.style.opacity = '1'; } updateCounter(); }, 140); }
+          if (lbImg) {
+            lbImg.style.opacity = '0';
+            setTimeout(() => {
+              lbImg.src = lbImages[lbIndex];
+              lbImg.style.opacity = '1';
+              updateCounter();
+            }, 140);
+          }
         };
-
-        const updateCounter = () => { if (lbCounter) lbCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`; };
-
-        document.querySelectorAll<HTMLElement>('.lightbox-trigger').forEach((t, i) => {
-          t.addEventListener('click', () => openLb(i));
-        });
+        document.querySelectorAll('.lightbox-trigger').forEach((trigger, i) => trigger.addEventListener('click', () => openLb(i)));
         lbClose?.addEventListener('click', closeLb);
-        lbPrev?.addEventListener('click',  () => navigate(-1));
-        lbNext?.addEventListener('click',  () => navigate(1));
+        lbPrev?.addEventListener('click', () => navigate(-1));
+        lbNext?.addEventListener('click', () => navigate(1));
         lbModal?.addEventListener('click', (e) => { if (e.target === lbModal) closeLb(); });
         document.addEventListener('keydown', (e) => {
           if (lbModal?.classList.contains('hidden')) return;
-          if (e.key === 'Escape')      closeLb();
-          if (e.key === 'ArrowLeft')   navigate(-1);
-          if (e.key === 'ArrowRight')  navigate(1);
+          if (e.key === 'Escape') closeLb();
+          if (e.key === 'ArrowLeft') navigate(-1);
+          if (e.key === 'ArrowRight') navigate(1);
         });
 
-        /* ─── PACKAGE BUILDER & CAL.COM INTEGRATION ─── */
-        const toggleBtns = document.querySelectorAll('.toggle-service-btn');
         const builderBar = document.getElementById('package-builder-bar');
         const countDisplay = document.querySelector('.package-count');
         const totalDisplay = document.querySelector('.package-total');
         const checkoutBtn = document.getElementById('package-checkout-btn');
+        const requestPanel = document.getElementById('booking-request-panel');
+        const scrollToRequestBtn = document.getElementById('scroll-to-request-btn');
+        const statusEl = document.getElementById('booking-request-status');
+        const summaryEl = document.getElementById('request-package-summary');
+        const itemsEl = document.getElementById('request-package-items');
+        const totalEl = document.getElementById('request-package-total');
+        const summaryInput = document.getElementById('request-package-summary-input');
+        const totalInput = document.getElementById('request-package-total-input');
+        const requestForm = document.getElementById('booking-request-form');
+        const submitBtn = document.getElementById('submit-booking-request');
 
-        let selectedServices = new Map();
+        let selectedItems = [];
 
-        toggleBtns.forEach(btn => {
-          btn.addEventListener('click', function() {
-            const service = (this as HTMLElement).dataset.service;
-            const price = parseInt((this as HTMLElement).dataset.price || '0');
-            const btnText = this.querySelector('.btn-text');
+        function money(n) {
+          return `$${Number(n).toFixed(2)}`;
+        }
 
-            if (selectedServices.has(service)) {
-              selectedServices.delete(service);
-              this.classList.remove('selected');
-              if (btnText) btnText.textContent = 'Add to Package';
+        function renderSelectedPackage() {
+          const total = selectedItems.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0);
+
+          if (selectedItems.length === 0) {
+            if (builderBar) builderBar.classList.add('hidden');
+            if (countDisplay) countDisplay.textContent = '0 Services Selected';
+            if (totalDisplay) totalDisplay.textContent = 'Estimated: $0 + HST';
+            if (summaryEl) summaryEl.textContent = 'No package selected';
+            if (itemsEl) itemsEl.innerHTML = '';
+            if (totalEl) totalEl.textContent = 'Estimated total: $0 + HST';
+            if (summaryInput) summaryInput.value = '';
+            if (totalInput) totalInput.value = '0';
+            return;
+          }
+
+          const summary = selectedItems.map((item) => item.serviceName).join(' + ');
+          if (builderBar) builderBar.classList.remove('hidden');
+          if (countDisplay) countDisplay.textContent = `${selectedItems.length} Service${selectedItems.length > 1 ? 's' : ''} Selected`;
+          if (totalDisplay) totalDisplay.textContent = `Estimated: ${money(total)} + HST`;
+          if (summaryEl) summaryEl.textContent = summary;
+          if (itemsEl) {
+            itemsEl.innerHTML = selectedItems.map((item) => `
+              <div class="flex items-center justify-between gap-4 border-b border-white/5 pb-2">
+                <span>${item.serviceName}</span>
+                <span class="text-gray-500">${money(item.lineTotal)}</span>
+              </div>
+            `).join('');
+          }
+          if (totalEl) totalEl.textContent = `Estimated total: ${money(total)} + HST`;
+          if (summaryInput) summaryInput.value = summary;
+          if (totalInput) totalInput.value = String(total);
+        }
+
+        function syncServiceButtons() {
+          document.querySelectorAll('.toggle-service-btn').forEach((btn) => {
+            const serviceName = btn.dataset.service || '';
+            const selected = selectedItems.some((item) => item.serviceName === serviceName);
+            const textEl = btn.querySelector('.btn-text');
+            btn.classList.toggle('selected', selected);
+            if (textEl) textEl.textContent = selected ? 'Remove Service' : 'Add to Package';
+          });
+        }
+
+        document.querySelectorAll('.toggle-service-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const serviceCode = btn.dataset.code || (btn.dataset.service || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const serviceName = btn.dataset.service || 'Service';
+            const unitPrice = Number(btn.dataset.price || 0);
+            const existingIndex = selectedItems.findIndex((item) => item.serviceCode === serviceCode);
+
+            if (existingIndex >= 0) {
+              selectedItems.splice(existingIndex, 1);
             } else {
-              selectedServices.set(service, price);
-              this.classList.add('selected');
-              if (btnText) btnText.textContent = 'Remove Service';
+              selectedItems.push({
+                serviceCode,
+                serviceName,
+                unitPrice,
+                quantity: 1,
+                lineTotal: unitPrice
+              });
             }
 
-            updateBuilderBar();
+            syncServiceButtons();
+            renderSelectedPackage();
           });
         });
 
-        function updateBuilderBar() {
-          let total = 0;
-          selectedServices.forEach(price => total += price);
-          
-          if (selectedServices.size > 0) {
-            builderBar?.classList.remove('hidden');
-            if (countDisplay) countDisplay.textContent = `${selectedServices.size} Service${selectedServices.size > 1 ? 's' : ''} Selected`;
-            if (totalDisplay) totalDisplay.textContent = `Estimated: $${total} + HST`;
-          } else {
-            builderBar?.classList.add('hidden');
+        scrollToRequestBtn?.addEventListener('click', () => {
+          requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        checkoutBtn?.addEventListener('click', () => {
+          requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        function openCalBooking(data) {
+          const calPrefill = data?.calPayload || {};
+
+          if (window.Cal && window.Cal.ns && window.Cal.ns['30min']) {
+            window.Cal.ns['30min']('modal', {
+              calLink,
+              config: {
+                layout: 'month_view',
+                theme: 'dark'
+              },
+              ...(calPrefill.name || calPrefill.email || calPrefill.notes
+                ? {
+                    responses: {
+                      name: calPrefill.name,
+                      email: calPrefill.email,
+                      notes: calPrefill.notes
+                    }
+                  }
+                : {})
+            });
+            return;
+          }
+
+          const fallbackSubject = encodeURIComponent('J Arts 360 View Booking Request');
+          const fallbackBody = encodeURIComponent(calPrefill.notes || 'Booking request created.');
+          window.location.href = `mailto:jarts360view@gmail.com?subject=${fallbackSubject}&body=${fallbackBody}`;
+        }
+
+        async function createBookingRequestAndOpenCal(event) {
+          event.preventDefault();
+
+          if (!selectedItems.length) {
+            if (statusEl) statusEl.textContent = 'Please choose at least one service before booking.';
+            requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+          }
+
+          const fullName = document.getElementById('client-full-name')?.value?.trim() || '';
+          const email = document.getElementById('client-email')?.value?.trim() || '';
+          const phone = document.getElementById('client-phone')?.value?.trim() || '';
+          const propertyAddress = document.getElementById('property-address')?.value?.trim() || '';
+          const notes = document.getElementById('client-notes')?.value?.trim() || '';
+          const packageSummary = summaryInput?.value || selectedItems.map((item) => item.serviceName).join(' + ');
+          const displayTotal = Number(totalInput?.value || 0);
+
+          if (!fullName || !email) {
+            if (statusEl) statusEl.textContent = 'Full name and email are required.';
+            return;
+          }
+
+          const payload = {
+            fullName,
+            email,
+            phone,
+            propertyAddress,
+            notes,
+            packageSummary,
+            displayTotal,
+            selectedServices: selectedItems.map((item) => ({
+              service_code: item.serviceCode,
+              service_name: item.serviceName,
+              unit_price: item.unitPrice,
+              quantity: item.quantity || 1
+            })),
+            source: 'marketing_site'
+          };
+
+          try {
+            if (submitBtn) submitBtn.setAttribute('disabled', 'true');
+            if (statusEl) statusEl.textContent = 'Saving your request...';
+
+            const response = await fetch(`${portalApiBase}/api/public/bookings`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Could not save booking request');
+
+            if (statusEl) statusEl.textContent = `Request saved. Reference: ${data.reference}. Opening calendar...`;
+            openCalBooking(data);
+          } catch (error) {
+            console.error(error);
+            if (statusEl) statusEl.textContent = error?.message || 'Something went wrong. Please try again.';
+          } finally {
+            if (submitBtn) submitBtn.removeAttribute('disabled');
           }
         }
 
-        checkoutBtn?.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          let notes = "Client has requested the following package:\n\n";
-          selectedServices.forEach((price, service) => {
-            notes += `- ${service} ($${price})\n`;
-          });
-          notes += `\nTotal Estimated: $${Array.from(selectedServices.values()).reduce((a, b) => a + b, 0)} + HST`;
-
-          // Trigger the Cal.com modal and inject the payload using 'responses'
-          if (window.Cal && window.Cal.ns && window.Cal.ns["30min"]) {
-            window.Cal.ns["30min"]("modal", {
-              calLink: "jarts/30min",
-              config: {
-                layout: "month_view"
-              },
-              responses: {
-                notes: notes
-              }
-            });
-          } else {
-            // Fallback just in case the calendar embed fails to load
-            window.location.href = "#book";
-          }
-        });
-
+        requestForm?.addEventListener('submit', createBookingRequestAndOpenCal);
+        renderSelectedPackage();
       });
     </script>
   </body>
