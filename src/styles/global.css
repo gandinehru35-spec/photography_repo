@@ -209,7 +209,6 @@ button { cursor:pointer; background:none; border:none; }
   inset: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
   opacity: 0.8;
-  mix-blend-mode: luminosity;
   animation: slowPan 20s linear infinite alternate;
 }
 
@@ -413,14 +412,7 @@ button { cursor:pointer; background:none; border:none; }
   transition:border-color var(--t);
 }
 .gallery-item:hover { border-color:rgba(255,255,255,.2); }
-.gallery-image { width:100%; height:340px; object-fit:cover; transition:transform .4s ease, opacity .4s ease; }
 .gallery-item:hover .gallery-image { transform:scale(1.04); opacity:.9; }
-.gallery-overlay {
-  position:absolute; inset:0; background:rgba(0,0,0,.38);
-  display:grid; place-items:center; color:#fff; opacity:0;
-  transition:opacity .3s ease; border-radius:18px;
-}
-.gallery-item:hover .gallery-overlay { opacity:1; }
 .gallery-item:focus-visible { outline:2px solid var(--accent-soft); outline-offset:2px; }
 
 .hidden { display:none !important; }
@@ -597,7 +589,7 @@ button { cursor:pointer; background:none; border:none; }
 
   .hero           { padding-top:2rem; }
   .gallery-grid,.services-grid { grid-template-columns:1fr; }
-  .featured-image,.gallery-image { height:280px; }
+  .featured-image { height:280px; }
   .section-pad    { padding:4rem 0; }
 
   .portal-cta-strip { flex-direction:column; align-items:flex-start; }
