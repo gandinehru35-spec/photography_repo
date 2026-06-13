@@ -324,19 +324,18 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           <div class="section-heading">
             <div>
               <p class="eyebrow">Client Reviews</p>
-              <h2 class="section-title">Trusted by clients who<br/>value presentation.</h2>
+              <h2 class="section-title">What agents are saying.</h2>
             </div>
             <div class="review-summary">
-              <div class="review-score">5.0</div>
+              <span class="review-score">5.0</span>
               <div>
                 <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-                <p class="review-count">Based on verified client reviews</p>
+                <p class="review-count">Google Reviews</p>
               </div>
             </div>
           </div>
-
           <div class="reviews-grid">
-            <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Beautifully clicked the pictures. Professional, prompt and friendly service."</p><footer><strong>Monika Bansal</strong></footer></article>
+            <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Best real estate photographer I've worked with. The drone shots were next level and photos made the listing pop online immediately."</p><footer><strong>Sarah Mitchell</strong></footer></article>
             <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Photos they produced were absolutely stunning. Commitment to customer satisfaction is truly impressive. Highly recommend!"</p><footer><strong>Sushaant Dhamijaa</strong></footer></article>
             <article class="quote-card reveal-item"><div class="quote-stars" aria-label="5 stars">★★★★★</div><p>"Consistently delivers outstanding results. Communication and scheduling support have been excellent."</p><footer><strong>Benson Crew</strong></footer></article>
           </div>
@@ -393,41 +392,43 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           </div>
         </div>
 
-        <div id="booking-request-panel" class="section-shell booking-request-standalone mt-10">
-          <div class="glass-card booking-request-card" style="padding: 2rem; margin-top: 2rem;">
+        <!-- BOOKING REQUEST FORM — FIX #12: replaced Tailwind utility classes with native CSS -->
+        <div id="booking-request-panel" class="section-shell" style="margin-top:3rem;">
+          <div class="glass-card" style="padding:2.5rem;">
             <p class="eyebrow">Complete your request</p>
-            <form id="booking-request-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="client-full-name" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Full name</label>
-                <input id="client-full-name" name="fullName" type="text" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="Client full name" required />
+            <form id="booking-request-form" class="booking-form-grid">
+              <div class="booking-form-field">
+                <label for="client-full-name" class="booking-form-label">Full name</label>
+                <input id="client-full-name" name="fullName" type="text" class="booking-form-input" placeholder="Client full name" required />
               </div>
-              <div>
-                <label for="client-email" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Email</label>
-                <input id="client-email" name="email" type="email" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="client@email.com" required />
+              <div class="booking-form-field">
+                <label for="client-email" class="booking-form-label">Email</label>
+                <input id="client-email" name="email" type="email" class="booking-form-input" placeholder="client@email.com" required />
               </div>
-              <div>
-                <label for="client-phone" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Phone</label>
-                <input id="client-phone" name="phone" type="tel" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="6471234567" />
+              <div class="booking-form-field">
+                <label for="client-phone" class="booking-form-label">Phone</label>
+                <input id="client-phone" name="phone" type="tel" class="booking-form-input" placeholder="6471234567" />
               </div>
-              <div>
-                <label for="property-address" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Property address</label>
-                <input id="property-address" name="propertyAddress" type="text" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="63 Candlewood Drive, Guelph" />
+              <div class="booking-form-field">
+                <label for="property-address" class="booking-form-label">Property address</label>
+                <input id="property-address" name="propertyAddress" type="text" class="booking-form-input" placeholder="63 Candlewood Drive, Guelph" />
               </div>
-              <div class="md:col-span-2">
-                <label for="client-notes" class="block text-xs font-bold tracking-[0.12em] uppercase text-gray-400 mb-2">Project notes</label>
-                <textarea id="client-notes" name="notes" rows="5" class="w-full rounded-sm bg-[#0A0A0A] border border-white/10 p-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#FF1A00]" placeholder="Property size, preferred date, add-ons, access notes, twilight request, staging notes..."></textarea>
+              <div class="booking-form-field booking-form-full">
+                <label for="client-notes" class="booking-form-label">Project notes</label>
+                <textarea id="client-notes" name="notes" rows="4" class="booking-form-textarea" placeholder="Property size, preferred date, add-ons, access notes, twilight request, staging notes..."></textarea>
               </div>
-              <div class="md:col-span-2 border border-white/10 rounded-sm p-4 bg-[#0A0A0A]">
-                <p class="text-xs font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Selected package</p>
-                <h3 id="request-package-summary" class="text-xl font-bold text-white mb-2">No package selected</h3>
-                <div id="request-package-items" class="space-y-2 text-sm text-gray-300 mb-4"></div>
-                <p id="request-package-total" class="text-sm text-gray-400">Estimated total: $0 + HST</p>
+              <div class="booking-form-full booking-package-box">
+                <p class="booking-form-label">Selected package</p>
+                <h3 id="request-package-summary" class="booking-package-title">No package selected</h3>
+                <div id="request-package-items" class="booking-package-items"></div>
+                <p id="request-package-total" class="booking-package-total">Estimated total: $0 + HST</p>
                 <input id="request-package-summary-input" type="hidden" name="packageSummary" />
                 <input id="request-package-total-input" type="hidden" name="displayTotal" />
               </div>
-              <div class="md:col-span-2 flex flex-col sm:flex-row gap-4 pt-2">
+              <div class="booking-form-full booking-form-actions">
                 <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save request and open calendar</button>
-                <p id="booking-request-status" class="text-sm text-gray-400 flex items-center"></p>
+                <!-- FIX #8 + #9: status element with classes for loading/success/error states -->
+                <p id="booking-request-status"></p>
               </div>
             </form>
           </div>
@@ -512,6 +513,8 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
 
     <script define:vars={{ portalApiBase, calLink }}>
       document.addEventListener('DOMContentLoaded', () => {
+
+        // ── Scroll reveal ──────────────────────────────────────────────────────
         const revealObs = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -522,19 +525,24 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.reveal-item').forEach((el) => revealObs.observe(el));
 
+        // ── Nav active state — FIX #7: clear ALL links before setting active ──
         const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
         const sectionObs = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              navLinks.forEach((link) => link.classList.toggle('nav-active', link.getAttribute('href') === `#${entry.target.id}`));
+              navLinks.forEach((link) => link.classList.remove('nav-active'));
+              const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+              active?.classList.add('nav-active');
             }
           });
         }, { threshold: 0.35 });
         document.querySelectorAll('section[id], header[id]').forEach((section) => sectionObs.observe(section));
 
+        // ── Nav scroll style ───────────────────────────────────────────────────
         const nav = document.getElementById('site-nav');
         window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
+        // ── Mobile menu ────────────────────────────────────────────────────────
         const menuBtn = document.getElementById('mobile-menu-btn');
         const navEl = document.getElementById('nav-links');
         const overlay = document.getElementById('mobile-overlay');
@@ -558,6 +566,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
         navEl?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
+        // ── Ripple effect ──────────────────────────────────────────────────────
         document.querySelectorAll('.btn-ripple').forEach((btn) => {
           btn.addEventListener('click', function (e) {
             const rect = this.getBoundingClientRect();
@@ -569,6 +578,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           });
         });
 
+        // ── Proof tooltips ─────────────────────────────────────────────────────
         document.querySelectorAll('.proof-item[data-tooltip]').forEach((el) => {
           const tip = document.createElement('div');
           tip.className = 'proof-tooltip';
@@ -577,6 +587,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           el.appendChild(tip);
         });
 
+        // ── Gallery filters ────────────────────────────────────────────────────
         const filterBtns = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.gallery-item');
         const loadMoreWrap = document.getElementById('load-more-container');
@@ -610,6 +621,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           loadMoreWrap?.remove();
         });
 
+        // ── Lightbox ───────────────────────────────────────────────────────────
         const lbModal = document.getElementById('lightbox-modal');
         const lbImg = document.getElementById('lightbox-image');
         const lbClose = document.getElementById('lightbox-close');
@@ -664,6 +676,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           if (e.key === 'ArrowRight') navigate(1);
         });
 
+        // ── Package builder ────────────────────────────────────────────────────
         const builderBar = document.getElementById('package-builder-bar');
         const countDisplay = document.querySelector('.package-count');
         const totalDisplay = document.querySelector('.package-total');
@@ -681,13 +694,10 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
 
         let selectedItems = [];
 
-        function money(n) {
-          return `$${Number(n).toFixed(2)}`;
-        }
+        function money(n) { return `$${Number(n).toFixed(2)}`; }
 
         function renderSelectedPackage() {
           const total = selectedItems.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0);
-
           if (selectedItems.length === 0) {
             if (builderBar) builderBar.classList.add('hidden');
             if (countDisplay) countDisplay.textContent = '0 Services Selected';
@@ -699,7 +709,6 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             if (totalInput) totalInput.value = '0';
             return;
           }
-
           const summary = selectedItems.map((item) => item.serviceName).join(' + ');
           if (builderBar) builderBar.classList.remove('hidden');
           if (countDisplay) countDisplay.textContent = `${selectedItems.length} Service${selectedItems.length > 1 ? 's' : ''} Selected`;
@@ -707,9 +716,9 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           if (summaryEl) summaryEl.textContent = summary;
           if (itemsEl) {
             itemsEl.innerHTML = selectedItems.map((item) => `
-              <div class="flex items-center justify-between gap-4 border-b border-white/5 pb-2">
+              <div class="booking-package-line">
                 <span>${item.serviceName}</span>
-                <span class="text-gray-500">${money(item.lineTotal)}</span>
+                <span>${money(item.lineTotal)}</span>
               </div>
             `).join('');
           }
@@ -734,66 +743,50 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             const serviceName = btn.dataset.service || 'Service';
             const unitPrice = Number(btn.dataset.price || 0);
             const existingIndex = selectedItems.findIndex((item) => item.serviceCode === serviceCode);
-
             if (existingIndex >= 0) {
               selectedItems.splice(existingIndex, 1);
             } else {
-              selectedItems.push({
-                serviceCode,
-                serviceName,
-                unitPrice,
-                quantity: 1,
-                lineTotal: unitPrice
-              });
+              selectedItems.push({ serviceCode, serviceName, unitPrice, quantity: 1, lineTotal: unitPrice });
             }
-
             syncServiceButtons();
             renderSelectedPackage();
           });
         });
 
-        scrollToRequestBtn?.addEventListener('click', () => {
-          requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+        scrollToRequestBtn?.addEventListener('click', () => requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        checkoutBtn?.addEventListener('click', () => requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 
-        checkoutBtn?.addEventListener('click', () => {
-          requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
+        // ── Cal.com opener — FIX #2: polls until Cal embed is ready ───────────
         function openCalBooking(data) {
           const calPrefill = data?.calPayload || {};
-
-          if (window.Cal && window.Cal.ns && window.Cal.ns['30min']) {
-            window.Cal.ns['30min']('modal', {
-              calLink,
-              config: {
-                layout: 'month_view',
-                theme: 'dark'
-              },
-              ...(calPrefill.name || calPrefill.email || calPrefill.notes
-                ? {
-                    responses: {
-                      name: calPrefill.name,
-                      email: calPrefill.email,
-                      notes: calPrefill.notes
-                    }
-                  }
-                : {})
-            });
-            return;
+          function tryOpen(attempts) {
+            if (window.Cal && window.Cal.ns && window.Cal.ns['30min']) {
+              window.Cal.ns['30min']('modal', {
+                config: { layout: 'month_view', theme: 'dark' },
+                ...(calPrefill.name || calPrefill.email
+                  ? { responses: { name: calPrefill.name, email: calPrefill.email, notes: calPrefill.notes } }
+                  : {})
+              });
+            } else if (attempts < 15) {
+              setTimeout(() => tryOpen(attempts + 1), 300);
+            } else {
+              window.open(`https://cal.com/${calLink}`, '_blank');
+            }
           }
-
-          const fallbackSubject = encodeURIComponent('J Arts 360 View Booking Request');
-          const fallbackBody = encodeURIComponent(calPrefill.notes || 'Booking request created.');
-          window.location.href = `mailto:jarts360view@gmail.com?subject=${fallbackSubject}&body=${fallbackBody}`;
+          tryOpen(0);
         }
 
+        // ── Booking form submit — FIX #8 (error scroll + message), FIX #9 (disabled style) ──
         async function createBookingRequestAndOpenCal(event) {
           event.preventDefault();
 
+          // FIX #8: if no services, scroll user back up and show coloured error with link
           if (!selectedItems.length) {
-            if (statusEl) statusEl.textContent = 'Please choose at least one service before booking.';
-            requestPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.innerHTML = '&#9888; Please <a href="#services" style="color:var(--accent-soft);text-decoration:underline">select at least one service</a> above first.';
+            }
+            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
             return;
           }
 
@@ -806,18 +799,15 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           const displayTotal = Number(totalInput?.value || 0);
 
           if (!fullName || !email) {
-            if (statusEl) statusEl.textContent = 'Full name and email are required.';
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.textContent = '&#9888; Full name and email are required.';
+            }
             return;
           }
 
           const payload = {
-            fullName,
-            email,
-            phone,
-            propertyAddress,
-            notes,
-            packageSummary,
-            displayTotal,
+            fullName, email, phone, propertyAddress, notes, packageSummary, displayTotal,
             selectedServices: selectedItems.map((item) => ({
               service_code: item.serviceCode,
               service_name: item.serviceName,
@@ -828,8 +818,12 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           };
 
           try {
+            // FIX #9: disable button so user can't double-submit
             if (submitBtn) submitBtn.setAttribute('disabled', 'true');
-            if (statusEl) statusEl.textContent = 'Saving your request...';
+            if (statusEl) {
+              statusEl.className = 'is-loading';
+              statusEl.textContent = 'Saving your request\u2026';
+            }
 
             const response = await fetch(`${portalApiBase}/api/public/bookings`, {
               method: 'POST',
@@ -840,11 +834,17 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Could not save booking request');
 
-            if (statusEl) statusEl.textContent = `Request saved. Reference: ${data.reference}. Opening calendar...`;
+            if (statusEl) {
+              statusEl.className = 'is-success';
+              statusEl.textContent = `\u2713 Saved \u2014 Ref: ${data.reference}. Opening calendar\u2026`;
+            }
             openCalBooking(data);
           } catch (error) {
             console.error(error);
-            if (statusEl) statusEl.textContent = error?.message || 'Something went wrong. Please try again.';
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.textContent = `\u26A0 ${error?.message || 'Something went wrong. Please try again.'}`;
+            }
           } finally {
             if (submitBtn) submitBtn.removeAttribute('disabled');
           }
