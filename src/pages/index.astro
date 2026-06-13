@@ -762,6 +762,7 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
           function tryOpen(attempts) {
             if (window.Cal && window.Cal.ns && window.Cal.ns['30min']) {
               window.Cal.ns['30min']('modal', {
+                calLink: calLink,
                 config: { layout: 'month_view', theme: 'dark' },
                 ...(calPrefill.name || calPrefill.email
                   ? { responses: { name: calPrefill.name, email: calPrefill.email, notes: calPrefill.notes } }
