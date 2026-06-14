@@ -2,8 +2,8 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 
-const portalApiBase = import.meta.env.PUBLIC_PORTAL_API_BASE ?? 'https://jarts-client-portal.aneeqpatel.workers.dev';
-const calLink = import.meta.env.PUBLIC_CAL_LINK ?? 'jarts/30min';
+const portalApiBase = (import.meta.env.PUBLIC_PORTAL_API_BASE || 'https://jarts-client-portal.aneeqpatelcuts.workers.dev').replace(/\/$/, '');
+const calLink = import.meta.env.PUBLIC_CAL_LINK || 'jarts/30min';
 
 const imageFiles = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/*.{avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG,svg,SVG}',
@@ -37,14 +37,14 @@ const remainingGalleryItems = allItems.filter(
 const initialGallery = preferredInteriorItems.slice(0, 2);
 const extendedGallery = remainingGalleryItems;
 
-const portalBaseUrl = 'https://jarts-client-portal.aneeqpatel.workers.dev';
+const portalBaseUrl = 'https://jarts-client-portal.aneeqpatelcuts.workers.dev';
 const portalLoginUrl = `${portalBaseUrl}/login`;
 const portalSignupUrl = `${portalBaseUrl}/signup`;
 
 const tours = [
   {
-    title: 'Lion’s Head iGuide Tour',
-    location: '595 Stokes Bay Rd, Lion\'s Head, ON',
+    title: "Lion's Head iGuide Tour",
+    location: "595 Stokes Bay Rd, Lion's Head, ON",
     platform: 'iGuide',
     url: 'https://youriguide.com/595_stokes_bay_rd_lion_s_head_on'
   },
@@ -86,16 +86,12 @@ const tours = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>J Arts 360 View | Real Estate Photography, Video & 3D Tours</title>
+    <title>J Arts 360 View | Real Estate Photography, Video &amp; 3D Tours</title>
     <meta
       name="description"
       content="Real estate photography, drone coverage, cinematic video, and 3D tours for listings across Guelph, GTA, and surrounding areas."
     />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <script is:inline>
-      window.__PORTAL_API_BASE__ = ${JSON.stringify(portalApiBase)};
-      window.__CAL_LINK__ = ${JSON.stringify(calLink)};
-    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -103,13 +99,10 @@ const tours = [
 
     <nav class="site-nav" id="site-nav">
       <div class="nav-inner">
-        <a href="#hero" class="brand-mark" aria-label="J Arts 360 View home">
+        <a href="#hero" class="brand-mark cinematic-brand" aria-label="J Arts 360 View home">
           <span class="brand-emblem" aria-hidden="true">
-            <svg viewBox="0 0 170 52" role="img" aria-label="J Arts wordmark">
-              <text x="3" y="36" class="brand-j">J</text>
-              <text x="38" y="35" class="brand-arts">Arts</text>
-              <path d="M39 41 H118" class="brand-stroke"></path>
-            </svg>
+            <span class="brand-emblem-core">J</span>
+            <span class="brand-emblem-shine"></span>
           </span>
           <span class="brand-copy">
             <span class="brand-kicker">Real Estate Media</span>
@@ -132,8 +125,11 @@ const tours = [
           <a href="#tours" class="nav-link">3D Tours</a>
           <a href="#portfolio" class="nav-link">Portfolio</a>
           <a href="#testimonials" class="nav-link">Reviews</a>
-          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="nav-link">Client Login</a>
-          <a href="#book" class="nav-cta">Build & Book</a>
+          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="nav-link nav-portal-link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Client Login
+          </a>
+          <a href="#book" class="nav-cta">Build &amp; Book</a>
         </div>
       </div>
     </nav>
@@ -153,7 +149,10 @@ const tours = [
               J Arts 360 View provides real estate photography, drone coverage, cinematic video, and immersive 3D tours for agents, builders, and property owners who want a stronger marketing presentation.
             </p>
             <div class="hero-actions">
-              <a href="#services" class="primary-btn btn-ripple">Explore Services</a>
+              <a href="#services" class="primary-btn btn-ripple">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Build a Package
+              </a>
               <a href="#portfolio" class="secondary-btn">View Portfolio</a>
             </div>
           </div>
@@ -207,16 +206,40 @@ const tours = [
                 </div>
                 <p>{service.description}</p>
                 <div class="service-config">
-                  <label><span>Square footage</span><select class="service-input" data-field="squareFootage"><option value="0">Under 1,000 sq ft</option><option value="20">1,000–1,500 sq ft</option><option value="45">1,500–2,500 sq ft</option><option value="80">2,500–3,500 sq ft</option><option value="130">3,500+ sq ft</option></select></label>
-                  <label><span>Property type</span><select class="service-input" data-field="propertyType"><option value="0">Condo / apartment</option><option value="20">Townhouse</option><option value="35">Detached home</option><option value="75">Luxury / estate</option><option value="95">Commercial / mixed use</option></select></label>
-                  <label><span>Turnaround</span><select class="service-input" data-field="turnaround"><option value="0">Standard</option><option value="35">Next day</option><option value="75">Same day / rush</option></select></label>
-                  <label><span>Add-on</span><select class="service-input" data-field="addon"><option value="0">No add-on</option><option value="45">Twilight enhancement</option><option value="60">Feature image edits</option><option value="85">Short social reel cut</option><option value="110">Floor plan / marketing kit</option></select></label>
+                  <label><span>Square footage</span>
+                    <div class="select-wrap"><select class="service-input" data-field="squareFootage">
+                      <option value="0">Under 1,000 sq ft</option>
+                      <option value="20">1,000–1,500 sq ft</option>
+                      <option value="45">1,500–2,500 sq ft</option>
+                      <option value="80">2,500–3,500 sq ft</option>
+                      <option value="130">3,500+ sq ft</option>
+                    </select></div>
+                  </label>
+                  <label><span>Property type</span>
+                    <div class="select-wrap"><select class="service-input" data-field="propertyType">
+                      <option value="0">Residential</option>
+                      <option value="25">Commercial</option>
+                      <option value="40">Luxury / High-end</option>
+                    </select></div>
+                  </label>
+                  <label><span>Turnaround</span>
+                    <div class="select-wrap"><select class="service-input" data-field="turnaround">
+                      <option value="0">Standard (2–3 days)</option>
+                      <option value="40">Rush (next day)</option>
+                      <option value="75">Same day</option>
+                    </select></div>
+                  </label>
+                  <label><span>Add-on</span>
+                    <div class="select-wrap"><select class="service-input" data-field="addon">
+                      <option value="0">No add-on</option>
+                      <option value="35">Twilight / dusk shoot</option>
+                      <option value="50">Floor plan</option>
+                      <option value="25">Extra editing round</option>
+                    </select></div>
+                  </label>
                 </div>
-                <div class="service-card-footer">
-                  <div>
-                    <p class="mini-label">Estimated price</p>
-                    <p class="service-estimate" data-service-estimate>${service.basePrice}</p>
-                  </div>
+                <div class="service-footer">
+                  <p class="service-estimate-label">Estimate: <strong data-service-estimate>${service.basePrice}</strong> + HST</p>
                   <button class="toggle-service-btn" data-toggle-service type="button">Add to Package</button>
                 </div>
               </article>
@@ -224,6 +247,14 @@ const tours = [
           </div>
         </div>
       </section>
+
+      <div id="package-builder-bar" class="package-builder-bar hidden" role="status" aria-live="polite">
+        <div class="package-info">
+          <span class="package-count">0 Services Selected</span>
+          <span class="package-total">Estimated: $0 + HST</span>
+        </div>
+        <button id="package-checkout-btn" class="primary-btn btn-ripple package-checkout-btn" type="button">Review &amp; Book</button>
+      </div>
 
       <section id="tours" class="section-pad tours-section">
         <div class="section-shell">
@@ -332,7 +363,7 @@ const tours = [
             <p class="eyebrow">Book a Shoot</p>
             <h2 class="section-title section-title-medium">Build your package first, then open the calendar.</h2>
             <p class="section-copy booking-copy">
-              This flow is designed to keep service selections, notes, client details, and estimated pricing together before booking time is selected.
+              Select services above, fill in your details, and hit <em>Save Request &amp; Open Calendar</em>. Your selections and notes are saved to the portal before the booking calendar opens.
             </p>
             <div class="contact-stack">
               <a href="tel:6477103982" class="contact-item contact-link"><span class="contact-badge">T</span><span>647 710 3982</span></a>
@@ -348,28 +379,52 @@ const tours = [
             </div>
           </div>
 
-          <div class="booking-panel glass-card">
-            <div id="booking-request-panel">
+          <div class="booking-panel glass-card" id="booking-panel-wrap">
+            <div id="booking-placeholder-state" class="booking-placeholder">
+              <div class="booking-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <h3>No package selected yet</h3>
+              <p>Select one or more services above. Your selections, pricing, address, and notes will be saved before the calendar opens.</p>
+              <div class="booking-actions">
+                <a href="#services" class="primary-btn btn-ripple" id="scroll-to-request-btn">Select Services</a>
+              </div>
+            </div>
+
+            <div id="booking-request-panel" style="display:none; width:100%;">
               <p class="mini-label accent-label">Complete your request</p>
               <form id="booking-request-form" class="booking-form-grid">
-                <label><span>Full name</span><input id="client-full-name" name="fullName" type="text" placeholder="Client full name" required /></label>
-                <label><span>Email</span><input id="client-email" name="email" type="email" placeholder="client@email.com" required /></label>
-                <label><span>Phone</span><input id="client-phone" name="phone" type="tel" placeholder="6471234567" /></label>
-                <label><span>Property address</span><input id="property-address" name="propertyAddress" type="text" placeholder="Property address" /></label>
-                <label class="full-width"><span>Project notes</span><textarea id="client-notes" name="notes" rows="5" placeholder="Property size, access notes, preferred date, add-ons, rush delivery, staging notes..."></textarea></label>
-
-                <div class="package-summary full-width">
-                  <p class="mini-label">Selected package</p>
-                  <h3 id="request-package-summary">No package selected</h3>
-                  <div id="request-package-items" class="request-package-items"></div>
-                  <p id="request-package-total">Estimated total $0 + HST</p>
+                <div class="booking-form-field">
+                  <label for="client-full-name" class="booking-form-label">Full name</label>
+                  <input id="client-full-name" name="fullName" type="text" class="booking-form-input" placeholder="Client full name" required />
+                </div>
+                <div class="booking-form-field">
+                  <label for="client-email" class="booking-form-label">Email</label>
+                  <input id="client-email" name="email" type="email" class="booking-form-input" placeholder="client@email.com" required />
+                </div>
+                <div class="booking-form-field">
+                  <label for="client-phone" class="booking-form-label">Phone</label>
+                  <input id="client-phone" name="phone" type="tel" class="booking-form-input" placeholder="6471234567" />
+                </div>
+                <div class="booking-form-field">
+                  <label for="property-address" class="booking-form-label">Property address</label>
+                  <input id="property-address" name="propertyAddress" type="text" class="booking-form-input" placeholder="63 Candlewood Drive, Guelph" />
+                </div>
+                <div class="booking-form-field booking-form-full">
+                  <label for="client-notes" class="booking-form-label">Project notes</label>
+                  <textarea id="client-notes" name="notes" rows="4" class="booking-form-textarea" placeholder="Property size, preferred date, add-ons, access notes, twilight request, staging notes..."></textarea>
+                </div>
+                <div class="booking-form-full booking-package-box">
+                  <p class="booking-form-label">Selected package</p>
+                  <h3 id="request-package-summary" class="booking-package-title">No package selected</h3>
+                  <div id="request-package-items" class="booking-package-items"></div>
+                  <p id="request-package-total" class="booking-package-total">Estimated total: $0 + HST</p>
                   <input id="request-package-summary-input" type="hidden" name="packageSummary" />
                   <input id="request-package-total-input" type="hidden" name="displayTotal" />
                 </div>
-
-                <div class="booking-actions-row full-width">
-                  <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save Request & Open Calendar</button>
-                  <p id="booking-request-status" class="booking-request-status">Select at least one service to continue.</p>
+                <div class="booking-form-full booking-form-actions">
+                  <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save request and open calendar</button>
+                  <p id="booking-request-status"></p>
                 </div>
               </form>
             </div>
@@ -436,34 +491,15 @@ const tours = [
         };
       })(window, 'https://app.cal.com/embed/embed.js', 'init');
       Cal('init', '30min', { origin: 'https://app.cal.com' });
-      Cal.ns['30min']('ui', { theme: 'dark', hideEventTypeDetails: false, layout: 'month_view' });
+      Cal.config = Cal.config || {};
+      Cal.config.forwardQueryParams = true;
+      Cal.ns['30min']('ui', { hideEventTypeDetails: false, layout: 'month_view' });
     </script>
 
-    <script is:inline>
+    <script define:vars={{ portalApiBase, calLink }}>
       document.addEventListener('DOMContentLoaded', () => {
-        const formatCurrency = (value) => `$${Number(value).toFixed(0)}`;
 
-        const nav = document.getElementById('site-nav');
-        window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
-
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const navEl = document.getElementById('nav-links');
-        const overlay = document.getElementById('mobile-overlay');
-        const closeMenu = () => {
-          navEl?.classList.remove('open');
-          menuBtn?.classList.remove('open');
-          menuBtn?.setAttribute('aria-expanded', 'false');
-          overlay?.classList.remove('visible');
-        };
-        menuBtn?.addEventListener('click', () => {
-          const open = navEl?.classList.toggle('open');
-          menuBtn.classList.toggle('open', !!open);
-          menuBtn.setAttribute('aria-expanded', String(!!open));
-          overlay?.classList.toggle('visible', !!open);
-        });
-        overlay?.addEventListener('click', closeMenu);
-        navEl?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
-
+        // ── Scroll reveal ──────────────────────────────────────────────────────
         const revealObs = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -474,36 +510,94 @@ const tours = [
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.reveal-item').forEach((el) => revealObs.observe(el));
 
+        // ── Nav active state ───────────────────────────────────────────────────
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        const sectionObs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              navLinks.forEach((link) => link.classList.remove('nav-active'));
+              const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+              active?.classList.add('nav-active');
+            }
+          });
+        }, { threshold: 0.35 });
+        document.querySelectorAll('section[id], header[id]').forEach((section) => sectionObs.observe(section));
+
+        // ── Nav scroll style ───────────────────────────────────────────────────
+        const nav = document.getElementById('site-nav');
+        window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+
+        // ── Mobile menu ────────────────────────────────────────────────────────
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navEl = document.getElementById('nav-links');
+        const overlay = document.getElementById('mobile-overlay');
+        const closeMenu = () => {
+          navEl?.classList.remove('open');
+          menuBtn?.classList.remove('open');
+          menuBtn?.setAttribute('aria-expanded', 'false');
+          menuBtn?.setAttribute('aria-label', 'Open navigation menu');
+          overlay?.classList.remove('visible');
+        };
+
+        menuBtn?.addEventListener('click', () => {
+          const open = navEl?.classList.toggle('open');
+          menuBtn.classList.toggle('open', !!open);
+          menuBtn.setAttribute('aria-expanded', String(!!open));
+          menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+          overlay?.classList.toggle('visible', !!open);
+        });
+
+        overlay?.addEventListener('click', closeMenu);
+        navEl?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+        // ── Ripple effect ──────────────────────────────────────────────────────
+        document.querySelectorAll('.btn-ripple').forEach((btn) => {
+          btn.addEventListener('click', function (e) {
+            const rect = this.getBoundingClientRect();
+            const rpl = document.createElement('span');
+            rpl.className = 'ripple-effect';
+            rpl.style.cssText = `left:${e.clientX - rect.left}px;top:${e.clientY - rect.top}px`;
+            this.appendChild(rpl);
+            rpl.addEventListener('animationend', () => rpl.remove());
+          });
+        });
+
+        // ── Gallery filters ────────────────────────────────────────────────────
         const filterBtns = document.querySelectorAll('.filter-btn');
         const galleryItems = document.querySelectorAll('.gallery-item');
         const loadMoreWrap = document.getElementById('load-more-container');
         const loadMoreBtn = document.getElementById('load-more-btn');
-        let currentFilter = 'interior';
-
-        const applyGalleryFilter = () => {
-          const matchingItems = Array.from(galleryItems).filter((item) => currentFilter === 'all' || item.dataset.category === currentFilter);
-          galleryItems.forEach((item) => item.classList.add('hidden'));
-          matchingItems.slice(0, 2).forEach((item) => item.classList.remove('hidden'));
-          if (loadMoreWrap) loadMoreWrap.style.display = matchingItems.length > 2 ? 'flex' : 'none';
-        };
+        let currentFilter = 'all';
 
         filterBtns.forEach((btn) => {
           btn.addEventListener('click', () => {
             filterBtns.forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
-            currentFilter = btn.dataset.filter || 'interior';
-            applyGalleryFilter();
+            currentFilter = btn.dataset.filter || 'all';
+            galleryItems.forEach((item) => {
+              const match = currentFilter === 'all' || item.dataset.category === currentFilter;
+              const isExtra = item.classList.contains('extra-image');
+              if (match && !isExtra) {
+                item.classList.remove('hidden');
+                item.style.animation = 'galleryFadeIn 0.35s ease forwards';
+              } else {
+                item.classList.add('hidden');
+              }
+            });
+            if (loadMoreWrap) loadMoreWrap.style.display = currentFilter === 'all' ? 'flex' : 'none';
           });
         });
 
-        applyGalleryFilter();
-
         loadMoreBtn?.addEventListener('click', () => {
-          const matchingItems = Array.from(galleryItems).filter((item) => currentFilter === 'all' || item.dataset.category === currentFilter);
-          matchingItems.forEach((item) => item.classList.remove('hidden'));
+          galleryItems.forEach((item) => {
+            item.classList.remove('extra-image');
+            if (currentFilter === 'all' || item.dataset.category === currentFilter) item.classList.remove('hidden');
+          });
           loadMoreWrap?.remove();
         });
 
+        // ── Lightbox ───────────────────────────────────────────────────────────
         const lbModal = document.getElementById('lightbox-modal');
         const lbImg = document.getElementById('lightbox-image');
         const lbClose = document.getElementById('lightbox-close');
@@ -513,10 +607,10 @@ const tours = [
         let lbIndex = 0;
         let lbImages = [];
 
-        const getVisibleImages = () => Array.from(document.querySelectorAll('.lightbox-trigger:not(.hidden)')).map((el) => el.dataset.highres).filter(Boolean);
+        const getVisible = () => Array.from(document.querySelectorAll('.lightbox-trigger:not(.hidden)')).map((el) => el.dataset.highres || '');
         const updateCounter = () => { if (lbCounter) lbCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`; };
         const openLb = (idx) => {
-          lbImages = getVisibleImages();
+          lbImages = getVisible();
           lbIndex = idx;
           if (!lbImages[lbIndex] || !lbImg) return;
           lbImg.src = lbImages[lbIndex];
@@ -524,6 +618,9 @@ const tours = [
           lbModal?.removeAttribute('aria-hidden');
           document.body.style.overflow = 'hidden';
           updateCounter();
+          const multi = lbImages.length > 1;
+          if (lbPrev) lbPrev.style.display = multi ? 'flex' : 'none';
+          if (lbNext) lbNext.style.display = multi ? 'flex' : 'none';
         };
         const closeLb = () => {
           lbModal?.classList.add('hidden');
@@ -531,160 +628,245 @@ const tours = [
           if (lbImg) lbImg.src = '';
           document.body.style.overflow = '';
         };
-        const navigateLb = (dir) => {
+        const navigate = (dir) => {
+          if (!lbImages.length) return;
           lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
-          if (lbImg) lbImg.src = lbImages[lbIndex];
-          updateCounter();
+          if (lbImg) {
+            lbImg.style.opacity = '0';
+            setTimeout(() => {
+              lbImg.src = lbImages[lbIndex];
+              lbImg.style.opacity = '1';
+              updateCounter();
+            }, 140);
+          }
         };
-        document.querySelectorAll('.lightbox-trigger').forEach((trigger, index) => trigger.addEventListener('click', () => openLb(index)));
+        document.querySelectorAll('.lightbox-trigger').forEach((trigger, i) => trigger.addEventListener('click', () => openLb(i)));
         lbClose?.addEventListener('click', closeLb);
-        lbPrev?.addEventListener('click', () => navigateLb(-1));
-        lbNext?.addEventListener('click', () => navigateLb(1));
+        lbPrev?.addEventListener('click', () => navigate(-1));
+        lbNext?.addEventListener('click', () => navigate(1));
         lbModal?.addEventListener('click', (e) => { if (e.target === lbModal) closeLb(); });
+        document.addEventListener('keydown', (e) => {
+          if (lbModal?.classList.contains('hidden')) return;
+          if (e.key === 'Escape') closeLb();
+          if (e.key === 'ArrowLeft') navigate(-1);
+          if (e.key === 'ArrowRight') navigate(1);
+        });
 
-        const selectedServices = new Map();
-        const packageSummary = document.getElementById('request-package-summary');
-        const packageItems = document.getElementById('request-package-items');
-        const packageTotal = document.getElementById('request-package-total');
-        const packageSummaryInput = document.getElementById('request-package-summary-input');
-        const packageTotalInput = document.getElementById('request-package-total-input');
-        const requestStatus = document.getElementById('booking-request-status');
+        // ── Package builder ────────────────────────────────────────────────────
+        const builderBar = document.getElementById('package-builder-bar');
+        const countDisplay = document.querySelector('.package-count');
+        const totalDisplay = document.querySelector('.package-total');
+        const checkoutBtn = document.getElementById('package-checkout-btn');
+        const placeholderState = document.getElementById('booking-placeholder-state');
+        const requestPanel = document.getElementById('booking-request-panel');
+        const statusEl = document.getElementById('booking-request-status');
+        const summaryEl = document.getElementById('request-package-summary');
+        const itemsEl = document.getElementById('request-package-items');
+        const totalEl = document.getElementById('request-package-total');
+        const summaryInput = document.getElementById('request-package-summary-input');
+        const totalInput = document.getElementById('request-package-total-input');
+        const requestForm = document.getElementById('booking-request-form');
+        const submitBtn = document.getElementById('submit-booking-request');
 
-        const buildLineText = (name, price, config) => {
-          const details = [config.squareFootageLabel, config.propertyTypeLabel, config.turnaroundLabel, config.addonLabel]
-            .filter((value) => value && !value.startsWith('No add-on'))
-            .join(' · ');
-          return `${name} — ${details || 'Base package'} — ${formatCurrency(price)}`;
-        };
+        let selectedItems = [];
 
-        const updatePackageUI = () => {
-          const items = Array.from(selectedServices.values());
-          const total = items.reduce((sum, item) => sum + item.price, 0);
-          if (!packageSummary || !packageItems || !packageTotal || !packageSummaryInput || !packageTotalInput) return;
-          if (!items.length) {
-            packageSummary.textContent = 'No package selected';
-            packageItems.innerHTML = '';
-            packageTotal.textContent = 'Estimated total $0 + HST';
-            packageSummaryInput.value = '';
-            packageTotalInput.value = '0';
-            if (requestStatus) requestStatus.textContent = 'Select at least one service to continue.';
+        function money(n) { return `$${Number(n).toFixed(2)}`; }
+
+        function renderSelectedPackage() {
+          const total = selectedItems.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0);
+          if (selectedItems.length === 0) {
+            if (builderBar) builderBar.classList.add('hidden');
+            if (countDisplay) countDisplay.textContent = '0 Services Selected';
+            if (totalDisplay) totalDisplay.textContent = 'Estimated: $0 + HST';
+            if (summaryEl) summaryEl.textContent = 'No package selected';
+            if (itemsEl) itemsEl.innerHTML = '';
+            if (totalEl) totalEl.textContent = 'Estimated total: $0 + HST';
+            if (summaryInput) summaryInput.value = '';
+            if (totalInput) totalInput.value = '0';
+            if (placeholderState) placeholderState.style.display = '';
+            if (requestPanel) requestPanel.style.display = 'none';
             return;
           }
-          packageSummary.textContent = `${items.length} service${items.length > 1 ? 's' : ''} selected`;
-          packageItems.innerHTML = items.map((item) => `<div class="package-line">${item.line}</div>`).join('');
-          packageTotal.textContent = `Estimated total ${formatCurrency(total)} + HST`;
-          packageSummaryInput.value = items.map((item) => item.line).join(' | ');
-          packageTotalInput.value = String(total);
-          if (requestStatus) requestStatus.textContent = 'Ready to save request and open calendar.';
-        };
+          if (builderBar) builderBar.classList.remove('hidden');
+          if (placeholderState) placeholderState.style.display = 'none';
+          if (requestPanel) requestPanel.style.display = '';
+          if (countDisplay) countDisplay.textContent = `${selectedItems.length} Service${selectedItems.length > 1 ? 's' : ''} Selected`;
+          if (totalDisplay) totalDisplay.textContent = `Estimated: ${money(total)} + HST`;
+          if (summaryEl) summaryEl.textContent = selectedItems.map((i) => i.serviceName).join(' + ');
+          if (itemsEl) {
+            itemsEl.innerHTML = selectedItems.map((item) => `
+              <div class="booking-package-line">
+                <span>${item.serviceName}</span>
+                <span>${money(item.lineTotal)}</span>
+              </div>`).join('');
+          }
+          if (totalEl) totalEl.textContent = `Estimated total: ${money(total)} + HST`;
+          if (summaryInput) summaryInput.value = selectedItems.map((i) => i.serviceName).join(' + ');
+          if (totalInput) totalInput.value = String(total);
+        }
 
         document.querySelectorAll('[data-service-card]').forEach((card) => {
           const toggleBtn = card.querySelector('[data-toggle-service]');
           const estimateEl = card.querySelector('[data-service-estimate]');
           const inputs = card.querySelectorAll('.service-input');
-          const serviceKey = card.dataset.serviceKey;
-          const serviceName = card.dataset.serviceName;
+          const serviceKey = card.dataset.serviceKey || '';
+          const serviceName = card.dataset.serviceName || '';
           const basePrice = Number(card.dataset.basePrice || 0);
 
-          const getConfig = () => {
-            const values = {};
-            inputs.forEach((input) => {
-              const select = input;
-              const field = select.dataset.field;
-              const label = select.options[select.selectedIndex]?.textContent || '';
-              values[field] = Number(select.value || 0);
-              values[`${field}Label`] = label;
-            });
-            return values;
-          };
+          function computePrice() {
+            let price = basePrice;
+            inputs.forEach((input) => { price += Number(input.value || 0); });
+            return price;
+          }
 
-          const computePrice = () => {
-            const config = getConfig();
-            return { config, price: basePrice + config.squareFootage + config.propertyType + config.turnaround + config.addon };
-          };
-
-          const refreshEstimate = () => {
-            const { price } = computePrice();
-            if (estimateEl) estimateEl.textContent = formatCurrency(price);
-            if (selectedServices.has(serviceKey)) {
-              const { config, price } = computePrice();
-              selectedServices.set(serviceKey, { name: serviceName, price, line: buildLineText(serviceName, price, config) });
-              updatePackageUI();
+          function refreshEstimate() {
+            const price = computePrice();
+            if (estimateEl) estimateEl.textContent = `$${price}`;
+            const idx = selectedItems.findIndex((i) => i.serviceCode === serviceKey);
+            if (idx !== -1) {
+              selectedItems[idx].lineTotal = price;
+              selectedItems[idx].unitPrice = price;
+              renderSelectedPackage();
             }
-          };
+          }
 
           inputs.forEach((input) => input.addEventListener('change', refreshEstimate));
-          refreshEstimate();
+
           toggleBtn?.addEventListener('click', () => {
-            const { config, price } = computePrice();
-            if (selectedServices.has(serviceKey)) {
-              selectedServices.delete(serviceKey);
-              toggleBtn.textContent = 'Add to Package';
+            const price = computePrice();
+            const idx = selectedItems.findIndex((i) => i.serviceCode === serviceKey);
+            if (idx !== -1) {
+              selectedItems.splice(idx, 1);
               card.classList.remove('selected');
+              if (toggleBtn) {
+                toggleBtn.classList.remove('selected');
+                const btnText = toggleBtn.querySelector('.btn-text');
+                if (btnText) btnText.textContent = 'Add to Package';
+                else toggleBtn.textContent = 'Add to Package';
+                const iconEl = toggleBtn.querySelector('svg');
+                if (iconEl) iconEl.innerHTML = '<path d="M12 5v14M5 12h14"/>';
+              }
             } else {
-              selectedServices.set(serviceKey, { name: serviceName, price, line: buildLineText(serviceName, price, config) });
-              toggleBtn.textContent = 'Remove Service';
+              selectedItems.push({
+                serviceCode: serviceKey,
+                serviceName,
+                unitPrice: price,
+                lineTotal: price,
+                quantity: 1
+              });
               card.classList.add('selected');
+              if (toggleBtn) {
+                toggleBtn.classList.add('selected');
+                const btnText = toggleBtn.querySelector('.btn-text');
+                if (btnText) btnText.textContent = 'Remove Service';
+                else toggleBtn.textContent = 'Remove Service';
+                const iconEl = toggleBtn.querySelector('svg');
+                if (iconEl) iconEl.innerHTML = '<path d="M5 12h14"/>';
+              }
             }
-            updatePackageUI();
+            renderSelectedPackage();
           });
         });
 
-        const bookingForm = document.getElementById('booking-request-form');
-        bookingForm?.addEventListener('submit', async (event) => {
+        checkoutBtn?.addEventListener('click', () => {
+          document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ── Cal.com opener — polls until Cal embed is ready ────────────────────
+        function openCalBooking(data) {
+          const calPrefill = data?.calPayload || {};
+          function tryOpen(attempts) {
+            if (window.Cal && window.Cal.ns && window.Cal.ns['30min']) {
+              window.Cal.ns['30min']('modal', {
+                calLink: calLink,
+                config: { layout: 'month_view', theme: 'dark' },
+                ...(calPrefill.name || calPrefill.email
+                  ? { responses: { name: calPrefill.name, email: calPrefill.email, notes: calPrefill.notes } }
+                  : {})
+              });
+            } else if (attempts < 15) {
+              setTimeout(() => tryOpen(attempts + 1), 300);
+            } else {
+              window.open(`https://cal.com/${calLink}`, '_blank');
+            }
+          }
+          tryOpen(0);
+        }
+
+        // ── Booking form submit ────────────────────────────────────────────────
+        async function createBookingRequestAndOpenCal(event) {
           event.preventDefault();
-          if (!selectedServices.size) {
-            if (requestStatus) requestStatus.textContent = 'Please select at least one service before booking.';
+
+          if (!selectedItems.length) {
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.innerHTML = '&#9888; Please <a href="#services" style="color:var(--accent-soft);text-decoration:underline">select at least one service</a> above first.';
+            }
+            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
             return;
           }
-          const formData = new FormData(bookingForm);
+
+          const fullName = document.getElementById('client-full-name')?.value?.trim() || '';
+          const email = document.getElementById('client-email')?.value?.trim() || '';
+          const phone = document.getElementById('client-phone')?.value?.trim() || '';
+          const propertyAddress = document.getElementById('property-address')?.value?.trim() || '';
+          const notes = document.getElementById('client-notes')?.value?.trim() || '';
+          const packageSummary = summaryInput?.value || selectedItems.map((item) => item.serviceName).join(' + ');
+          const displayTotal = Number(totalInput?.value || 0);
+
+          if (!fullName || !email) {
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.textContent = '\u26A0 Full name and email are required.';
+            }
+            return;
+          }
+
           const payload = {
-            fullName: formData.get('fullName'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-            propertyAddress: formData.get('propertyAddress'),
-            notes: formData.get('notes'),
-            packageSummary: formData.get('packageSummary'),
-            displayTotal: formData.get('displayTotal'),
-            selectedServices: Array.from(selectedServices.values())
+            fullName, email, phone, propertyAddress, notes, packageSummary, displayTotal,
+            selectedServices: selectedItems.map((item) => ({
+              service_code: item.serviceCode,
+              service_name: item.serviceName,
+              unit_price: item.unitPrice,
+              quantity: item.quantity || 1
+            })),
+            source: 'marketing_site'
           };
-          if (requestStatus) requestStatus.textContent = 'Saving request...';
+
           try {
-            const apiBase = window.__PORTAL_API_BASE__;
-            const response = await fetch(`${apiBase}/api/public/bookings`, {
+            if (submitBtn) submitBtn.setAttribute('disabled', 'true');
+            if (statusEl) {
+              statusEl.className = 'is-loading';
+              statusEl.textContent = 'Saving your request\u2026';
+            }
+
+            const response = await fetch(`${portalApiBase}/api/public/bookings`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
             });
-            let result = null;
-            try { result = await response.json(); } catch {}
-            if (!response.ok) throw new Error(result?.error || 'Unable to save booking request.');
-            if (requestStatus) requestStatus.textContent = 'Request saved. Opening calendar...';
-            const bookingReference = result?.reference || '';
-            const cal = window.Cal?.ns?.['30min'];
-            if (cal) {
-              cal('modal', {
-                calLink: window.__CAL_LINK__,
-                config: { layout: 'month_view' },
-                metadata: {
-                  reference: bookingReference,
-                  booking_reference: bookingReference,
-                  package_summary: String(payload.packageSummary || ''),
-                  display_total: String(payload.displayTotal || ''),
-                  property_address: String(payload.propertyAddress || ''),
-                  notes: String(payload.notes || ''),
-                  client_email: String(payload.email || ''),
-                  full_name: String(payload.fullName || ''),
-                  phone: String(payload.phone || '')
-                }
-              });
-            } else {
-              window.location.href = `https://cal.com/${window.__CAL_LINK__}`;
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || 'Could not save booking request');
+
+            if (statusEl) {
+              statusEl.className = 'is-success';
+              statusEl.textContent = `\u2713 Saved \u2014 Ref: ${data.reference}. Opening calendar\u2026`;
             }
+            openCalBooking(data);
           } catch (error) {
-            if (requestStatus) requestStatus.textContent = error.message || 'Something went wrong while saving your request.';
+            console.error(error);
+            if (statusEl) {
+              statusEl.className = 'is-error';
+              statusEl.textContent = `\u26A0 ${error?.message || 'Something went wrong. Please try again.'}`;
+            }
+          } finally {
+            if (submitBtn) submitBtn.removeAttribute('disabled');
           }
-        });
+        }
+
+        requestForm?.addEventListener('submit', createBookingRequestAndOpenCal);
+        renderSelectedPackage();
       });
     </script>
   </body>
