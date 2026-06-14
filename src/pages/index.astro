@@ -2,6 +2,9 @@
 import '../styles/global.css';
 import { Image } from 'astro:assets';
 
+const portalApiBase = import.meta.env.PUBLIC_PORTAL_API_BASE ?? 'https://jarts-client-portal.aneeqpatel.workers.dev';
+const calLink = import.meta.env.PUBLIC_CAL_LINK ?? 'jarts/30min';
+
 const imageFiles = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/*.{avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG,svg,SVG}',
   { eager: true }
@@ -17,35 +20,65 @@ const allItems = Object.entries(imageFiles).map(([path, file]) => {
   };
 });
 
-const heroCollageFilenames = [
-  'JAR05747.avif',
-  'JAR05750.avif',
-  'JAR05753.avif',
-  'JAR05756.avif',
-  'JAR05759.avif'
-];
+// Replace this filename with your preferred hero background image.
+const heroPrimary = allItems.find((item) => item.filename.toLowerCase() === 'jar05747.avif') ?? allItems[0];
+const heroFileSet = new Set(heroPrimary ? [heroPrimary.filename.toLowerCase()] : []);
 
-const heroCollageItems = heroCollageFilenames
-  .map((targetName) => allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase()))
-  .filter(Boolean);
-
-const heroFileSet = new Set(heroCollageItems.map((item) => item?.filename.toLowerCase()));
-
-const preferredInteriorItems = heroCollageFilenames
+// Replace these 2 filenames with the interior images you want shown first in portfolio.
+const preferredInteriorFilenames = ['JAR05750.avif', 'JAR05753.avif'];
+const preferredInteriorItems = preferredInteriorFilenames
   .map((targetName) => allItems.find((item) => item.filename.toLowerCase() === targetName.toLowerCase()))
   .filter(Boolean)
   .map((item) => ({ ...item, category: 'interior' }));
 
-const remainingGalleryItems = allItems.filter((item) => !heroFileSet.has(item.filename.toLowerCase()));
-const orderedGalleryItems = [...preferredInteriorItems, ...remainingGalleryItems];
+const remainingGalleryItems = allItems.filter(
+  (item) => !heroFileSet.has(item.filename.toLowerCase()) && !preferredInteriorItems.find((p) => p.filename === item.filename)
+);
+const initialGallery = preferredInteriorItems.slice(0, 2);
+const extendedGallery = remainingGalleryItems;
 
-// GOLD STANDARD FIX: Limit initial gallery to exactly 2 items
-const initialGallery = orderedGalleryItems.slice(0, 2);
-const extendedGallery = orderedGalleryItems.slice(2);
-
-const portalBaseUrl = 'https://jarts-client-portal.aneeqpatelcuts.workers.dev';
+const portalBaseUrl = 'https://jarts-client-portal.aneeqpatel.workers.dev';
 const portalLoginUrl = `${portalBaseUrl}/login`;
 const portalSignupUrl = `${portalBaseUrl}/signup`;
+
+const tours = [
+  {
+    title: 'Lion’s Head iGuide Tour',
+    location: '595 Stokes Bay Rd, Lion\'s Head, ON',
+    platform: 'iGuide',
+    url: 'https://youriguide.com/595_stokes_bay_rd_lion_s_head_on'
+  },
+  {
+    title: 'Port Elgin iGuide Tour',
+    location: '912 Parkwood Dr, Port Elgin, ON',
+    platform: 'iGuide',
+    url: 'https://youriguide.com/912_parkwood_dr_port_elgin_on'
+  },
+  {
+    title: 'Waterloo iGuide Tour',
+    location: '361 Red Osier Rd, Waterloo, ON',
+    platform: 'iGuide',
+    url: 'https://youriguide.com/7rqlg_361_red_osier_rd_waterloo_on'
+  },
+  {
+    title: 'Matterport Showcase 01',
+    location: 'Interactive 3D walkthrough',
+    platform: 'Matterport',
+    url: 'https://my.matterport.com/show/?m=p38JCFUsEs1'
+  },
+  {
+    title: 'Matterport Showcase 02',
+    location: 'Interactive 3D walkthrough',
+    platform: 'Matterport',
+    url: 'https://my.matterport.com/show/?m=6L2pqyF5Jow'
+  },
+  {
+    title: 'Matterport Showcase 03',
+    location: 'Interactive 3D walkthrough',
+    platform: 'Matterport',
+    url: 'https://my.matterport.com/show/?m=FCeytGXXvyB'
+  }
+];
 ---
 
 <!doctype html>
@@ -53,362 +86,605 @@ const portalSignupUrl = `${portalBaseUrl}/signup`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>J Arts 360 View | Cinematic Real Estate Media</title>
-    <meta name="description" content="Immersive real estate photography and cinematic walkthroughs. Serving Guelph & GTA." />
+    <title>J Arts 360 View | Real Estate Photography, Video & 3D Tours</title>
+    <meta
+      name="description"
+      content="Real estate photography, drone coverage, cinematic video, and 3D tours for listings across Guelph, GTA, and surrounding areas."
+    />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <script is:inline>
+      window.__PORTAL_API_BASE__ = ${JSON.stringify(portalApiBase)};
+      window.__CAL_LINK__ = ${JSON.stringify(calLink)};
+    </script>
   </head>
-
   <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
 
-    <div class="nav-wrapper">
-      <nav class="site-nav" id="site-nav">
-        <a href="/" class="cinematic-brand" aria-label="Home">
-          <span class="brand-emblem-core">J</span>
-          <span class="brand-name-main">Arts 360</span>
+    <nav class="site-nav" id="site-nav">
+      <div class="nav-inner">
+        <a href="#hero" class="brand-mark" aria-label="J Arts 360 View home">
+          <span class="brand-emblem" aria-hidden="true">
+            <svg viewBox="0 0 170 52" role="img" aria-label="J Arts wordmark">
+              <text x="3" y="36" class="brand-j">J</text>
+              <text x="38" y="35" class="brand-arts">Arts</text>
+              <path d="M39 41 H118" class="brand-stroke"></path>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <span class="brand-kicker">Real Estate Media</span>
+            <span class="brand-name-row">
+              <span class="brand-name-main">J Arts</span>
+              <span class="brand-name-accent">360 View</span>
+            </span>
+            <span class="brand-tagline">Photography · Drone · Video · 3D Tours</span>
+          </span>
         </a>
 
-        <div class="nav-links" id="nav-links" role="navigation">
-          <a href="#services" class="nav-link">The Services</a>
-          <a href="#portfolio" class="nav-link">The Archive</a>
-          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="nav-link">Client Portal</a>
-        </div>
-        
-        <div style="pointer-events: auto;">
-           <a href="#book" class="nav-cta" style="margin-left: 1rem; font-family: 'Montserrat'; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;">Book Shoot</a>
-        </div>
-
-        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" type="button">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links" type="button">
+          <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
           <span class="hamburger-line"></span>
         </button>
-      </nav>
-    </div>
+
+        <div class="nav-links" id="nav-links" role="navigation" aria-label="Main navigation">
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#tours" class="nav-link">3D Tours</a>
+          <a href="#portfolio" class="nav-link">Portfolio</a>
+          <a href="#testimonials" class="nav-link">Reviews</a>
+          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="nav-link">Client Login</a>
+          <a href="#book" class="nav-cta">Build & Book</a>
+        </div>
+      </div>
+    </nav>
 
     <main id="main-content">
       <header class="hero" id="hero">
-        <div class="hero-bg">
-          {heroCollageItems[0] ? (
-            <Image src={heroCollageItems[0]!.image} alt="Background" loading="eager" fetchpriority="high" />
-          ) : null}
+        <div class="hero-bg-wrap">
+          {heroPrimary && <Image src={heroPrimary.image} alt="Featured real estate photography" class="hero-bg-image" loading="eager" />}
+          <div class="hero-bg-overlay"></div>
         </div>
-        <div class="section-shell" style="z-index: 2;">
-          <p class="eyebrow reveal-item">Guelph & Greater Toronto Area</p>
-          <h1 class="hero-title reveal-item">The Visual<br/>Experience.</h1>
-          <p class="hero-text reveal-item">
-            Immersive photography, cinematic storytelling, and spatial mapping designed to elevate listings into digital experiences.
-          </p>
-          <div class="reveal-item">
-            <a href="#services" class="primary-btn">Explore Packages</a>
+
+        <div class="section-shell hero-shell">
+          <div class="hero-content-block glass-card">
+            <p class="eyebrow">Guelph · GTA · Surrounding Areas</p>
+            <h1 class="section-title hero-title">Real estate media built to present every listing more clearly and professionally.</h1>
+            <p class="section-copy hero-text">
+              J Arts 360 View provides real estate photography, drone coverage, cinematic video, and immersive 3D tours for agents, builders, and property owners who want a stronger marketing presentation.
+            </p>
+            <div class="hero-actions">
+              <a href="#services" class="primary-btn btn-ripple">Explore Services</a>
+              <a href="#portfolio" class="secondary-btn">View Portfolio</a>
+            </div>
           </div>
         </div>
       </header>
 
-      <section id="services" class="section-pad" style="overflow: hidden;">
+      <section class="trust-strip" aria-label="What is included">
+        <div class="section-shell trust-grid glass-card">
+          <div>
+            <p class="eyebrow">Clear Coverage</p>
+            <p class="section-copy">Photography, drone, video, and 3D tours can be combined into one package based on the property and listing goals.</p>
+          </div>
+          <div>
+            <p class="eyebrow">Flexible Booking</p>
+            <p class="section-copy">Use the package builder to estimate the scope first, then save the request before opening the calendar.</p>
+          </div>
+          <div>
+            <p class="eyebrow">Client Access</p>
+            <p class="section-copy">Returning clients can log in to the portal to review booking-related information and account details.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="section-pad">
         <div class="section-shell">
-          <p class="eyebrow" style="text-align: center;">Production Capabilities</p>
-          <h2 class="section-title" style="text-align: center; margin-bottom: 2rem;">Build Your Narrative.</h2>
-          
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Services</p>
+              <h2 class="section-title section-title-medium">Build the right package for the property.</h2>
+            </div>
+            <p class="section-copy section-heading-copy">
+              Start with a service, then adjust for square footage, property type, turnaround, and add-ons. These are estimate ranges for now and can be finalized later.
+            </p>
+          </div>
+
           <div class="services-grid">
-            
-            <article class="service-card reveal-item">
-              <span class="service-number">01</span>
-              <h3>Listing Photography</h3>
-              <p>Clean composition, balanced light, and true-color editing. Delivered in high-resolution and MLS-optimized formats.</p>
-              <p class="service-price">From $120</p>
-              <button class="toggle-service-btn" data-service="Listing Photography" data-price="120" type="button">
-                <span class="btn-text">Add to Timeline</span>
-              </button>
-            </article>
+            {[
+              { key: 'photo', name: 'Listing Photography', description: 'Interior and exterior photography prepared for listing presentation.', basePrice: 120, icon: 'photo' },
+              { key: 'video', name: 'Cinematic Video', description: 'Walkthrough-style video designed to show flow, finishes, and space.', basePrice: 150, icon: 'video' },
+              { key: 'drone', name: 'Drone Aerial', description: 'Aerial coverage to show property context, lot position, and surroundings.', basePrice: 99, icon: 'drone' },
+              { key: 'tour', name: '3D Virtual Tours', description: 'Interactive tours for buyers who want to explore layout and room flow remotely.', basePrice: 200, icon: '3D' },
+              { key: 'sign', name: 'Signboard Placement', description: 'Installation and removal support for standard real estate signage.', basePrice: 50, icon: 'sign' }
+            ].map((service) => (
+              <article class="service-card reveal-item" data-service-card data-service-key={service.key} data-service-name={service.name} data-base-price={service.basePrice}>
+                <div class="service-card-head">
+                  <div class="service-icon" aria-hidden="true"><span>{service.icon}</span></div>
+                  <div>
+                    <h3>{service.name}</h3>
+                    <p class="service-price">From ${service.basePrice} <span>+ HST</span></p>
+                  </div>
+                </div>
+                <p>{service.description}</p>
+                <div class="service-config">
+                  <label><span>Square footage</span><select class="service-input" data-field="squareFootage"><option value="0">Under 1,000 sq ft</option><option value="20">1,000–1,500 sq ft</option><option value="45">1,500–2,500 sq ft</option><option value="80">2,500–3,500 sq ft</option><option value="130">3,500+ sq ft</option></select></label>
+                  <label><span>Property type</span><select class="service-input" data-field="propertyType"><option value="0">Condo / apartment</option><option value="20">Townhouse</option><option value="35">Detached home</option><option value="75">Luxury / estate</option><option value="95">Commercial / mixed use</option></select></label>
+                  <label><span>Turnaround</span><select class="service-input" data-field="turnaround"><option value="0">Standard</option><option value="35">Next day</option><option value="75">Same day / rush</option></select></label>
+                  <label><span>Add-on</span><select class="service-input" data-field="addon"><option value="0">No add-on</option><option value="45">Twilight enhancement</option><option value="60">Feature image edits</option><option value="85">Short social reel cut</option><option value="110">Floor plan / marketing kit</option></select></label>
+                </div>
+                <div class="service-card-footer">
+                  <div>
+                    <p class="mini-label">Estimated price</p>
+                    <p class="service-estimate" data-service-estimate>${service.basePrice}</p>
+                  </div>
+                  <button class="toggle-service-btn" data-toggle-service type="button">Add to Package</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <article class="service-card reveal-item">
-              <span class="service-number">02</span>
-              <h3>Cinematic Video</h3>
-              <p>Smooth, stabilized walkthroughs highlighting architectural flow, scale, and premium finishes.</p>
-              <p class="service-price">From $150</p>
-              <button class="toggle-service-btn" data-service="Cinematic Video" data-price="150" type="button">
-                <span class="btn-text">Add to Timeline</span>
-              </button>
-            </article>
+      <section id="tours" class="section-pad tours-section">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">3D Tours</p>
+              <h2 class="section-title section-title-medium">Interactive walkthroughs for remote viewing.</h2>
+            </div>
+            <p class="section-copy section-heading-copy">
+              These examples show the kind of 3D tour experience available for listings that benefit from stronger remote access and layout visibility.
+            </p>
+          </div>
 
-            <article class="service-card reveal-item">
-              <span class="service-number">03</span>
-              <h3>Drone Aerials</h3>
-              <p>Elevated perspectives establishing lot boundaries, neighborhood context, and striking exterior elevations.</p>
-              <p class="service-price">From $99</p>
-              <button class="toggle-service-btn" data-service="Drone Aerial" data-price="99" type="button">
-                <span class="btn-text">Add to Timeline</span>
-              </button>
-            </article>
-
-            <article class="service-card reveal-item">
-              <span class="service-number">04</span>
-              <h3>3D Virtual Tours</h3>
-              <p>Immersive spatial mapping allowing out-of-town buyers to walk the floorplan digitally at their own pace.</p>
-              <p class="service-price">From $200</p>
-              <button class="toggle-service-btn" data-service="3D Virtual Tours" data-price="200" type="button">
-                <span class="btn-text">Add to Timeline</span>
-              </button>
-            </article>
-
-            <article class="service-card reveal-item">
-              <span class="service-number">05</span>
-              <h3>Signboard Placement</h3>
-              <p>Professional installation of standard real estate signage at the property boundary during the media shoot.</p>
-              <p class="service-price">From $50</p>
-              <button class="toggle-service-btn" data-service="Signboard Placement" data-price="50" type="button">
-                <span class="btn-text">Add to Timeline</span>
-              </button>
-            </article>
-
+          <div class="tours-grid">
+            {tours.map((tour) => (
+              <article class="tour-card glass-card">
+                <div class="tour-topline">
+                  <span class="tour-platform">{tour.platform}</span>
+                  <span class="tour-chip">Interactive Tour</span>
+                </div>
+                <h3>{tour.title}</h3>
+                <p>{tour.location}</p>
+                <a href={tour.url} target="_blank" rel="noopener noreferrer" class="secondary-btn">Open Tour</a>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <section id="portfolio" class="section-pad portfolio-section">
         <div class="section-shell">
-          <h2 class="section-title" style="text-align: center;">The Archive.</h2>
-          
-          <div class="filter-row" id="filter-controls">
-            <button class="filter-btn" data-filter="all" type="button">All Media</button>
-            <button class="filter-btn active" data-filter="interior" type="button">Interiors</button>
-            <button class="filter-btn" data-filter="aerial" type="button">Aerials</button>
+          <div class="section-heading portfolio-head">
+            <div>
+              <p class="eyebrow">Portfolio</p>
+              <h2 class="section-title section-title-medium">Selected property visuals.</h2>
+            </div>
+            <div class="filter-row" id="filter-controls" role="group" aria-label="Filter by category">
+              <button class="filter-btn" data-filter="all" type="button">All</button>
+              <button class="filter-btn active" data-filter="interior" type="button">Interiors</button>
+              <button class="filter-btn" data-filter="aerial" type="button">Aerials</button>
+            </div>
           </div>
 
-          <div class="gallery-grid asymmetric-mode" id="gallery-grid">
-            {orderedGalleryItems.map((item) => (
-              <button class="gallery-item lightbox-trigger hidden" data-category={item.category} data-highres={item.image.src} type="button">
-                <Image src={item.image} alt="Cinematic Property Media" class="gallery-image" loading="lazy" />
+          <div class="gallery-grid" id="gallery-grid">
+            {initialGallery.map((item) => (
+              <button class="gallery-item lightbox-trigger" data-category={item.category} data-highres={item.image.src} aria-label={`View full size ${item.category} photo`} type="button">
+                <Image src={item.image} alt={`J Arts 360 View ${item.category} property photo`} class="gallery-image" loading="lazy" />
+                <span class="gallery-overlay" aria-hidden="true">View</span>
+              </button>
+            ))}
+            {extendedGallery.map((item) => (
+              <button class="gallery-item lightbox-trigger extra-image hidden" data-category={item.category} data-highres={item.image.src} aria-label={`View full size ${item.category} photo`} type="button">
+                <Image src={item.image} alt={`J Arts 360 View ${item.category} property photo`} class="gallery-image" loading="lazy" />
+                <span class="gallery-overlay" aria-hidden="true">View</span>
               </button>
             ))}
           </div>
 
-          <div style="margin-top: 5rem; text-align: center;" id="load-more-container">
-            <button id="load-more-btn" class="secondary-btn" type="button">View Full Archive</button>
+          {extendedGallery.length > 0 && (
+            <div class="load-more-wrap" id="load-more-container">
+              <button id="load-more-btn" class="secondary-btn" type="button">Load More Photos</button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section id="testimonials" class="section-pad">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Client Reviews</p>
+              <h2 class="section-title section-title-medium">Feedback from past clients.</h2>
+            </div>
+            <div class="review-summary">
+              <div class="review-score">5.0</div>
+              <div>
+                <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                <p class="review-count">Based on verified client reviews</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-grid">
+            <article class="quote-card reveal-item">
+              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
+              <p>Beautifully clicked the pictures. Professional, prompt and friendly service.</p>
+              <footer><strong>Monika Bansal</strong></footer>
+            </article>
+            <article class="quote-card reveal-item">
+              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
+              <p>Photos they produced were absolutely stunning. Commitment to customer satisfaction is truly impressive.</p>
+              <footer><strong>Sushaant Dhamijaa</strong></footer>
+            </article>
+            <article class="quote-card reveal-item">
+              <div class="quote-stars" aria-label="5 stars">★★★★★</div>
+              <p>Consistently delivers outstanding results. Communication and scheduling support have been excellent.</p>
+              <footer><strong>Benson Crew</strong></footer>
+            </article>
           </div>
         </div>
       </section>
 
-      <section id="book" class="section-pad">
+      <section id="book" class="section-pad booking-section">
         <div class="section-shell booking-layout">
-          <div>
-            <p class="eyebrow">Booking & Availability</p>
-            <h2 class="section-title">Schedule<br/>Production.</h2>
-            <p style="color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem;">
-              Reserve a shoot date for your next property or reach out directly for pricing, availability, and tailored media packages.
+          <div class="booking-info">
+            <p class="eyebrow">Book a Shoot</p>
+            <h2 class="section-title section-title-medium">Build your package first, then open the calendar.</h2>
+            <p class="section-copy booking-copy">
+              This flow is designed to keep service selections, notes, client details, and estimated pricing together before booking time is selected.
             </p>
-            
             <div class="contact-stack">
-              <div class="contact-item">
-                <span class="contact-badge">DIRECT LINE</span>
-                <a href="tel:6477103982">647 710 3982</a>
-              </div>
-              <div class="contact-item">
-                <span class="contact-badge">ELECTRONIC MAIL</span>
-                <a href="mailto:jarts360view@gmail.com">jarts360view@gmail.com</a>
+              <a href="tel:6477103982" class="contact-item contact-link"><span class="contact-badge">T</span><span>647 710 3982</span></a>
+              <a href="mailto:jarts360view@gmail.com" class="contact-item contact-link"><span class="contact-badge">E</span><span>jarts360view@gmail.com</span></a>
+              <div class="contact-item"><span class="contact-badge">HQ</span><span>63 Candlewood Drive, Guelph</span></div>
+            </div>
+            <div class="portal-cta-strip">
+              <p class="portal-cta-label">Returning client?</p>
+              <div class="portal-cta-actions">
+                <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer" class="portal-pill-btn">Client Login</a>
+                <a href={portalSignupUrl} target="_blank" rel="noopener noreferrer" class="portal-pill-btn portal-pill-outline">Create Account</a>
               </div>
             </div>
           </div>
 
-          <div class="booking-panel" style="padding: 3rem; border: 1px solid var(--glass-border); border-radius: 16px; background: rgba(255,255,255,0.015); backdrop-filter: blur(10px); text-align: center;">
-            <div class="booking-placeholder">
-              <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Book your shoot</h3>
-              <p style="color: var(--muted); margin-bottom: 2rem;">Choose a time that works for you directly in our live calendar. Instant confirmation sent to your email.</p>
-              <div class="booking-actions" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="#" class="primary-btn"
-                   data-cal-link="jarts/30min"
-                   data-cal-namespace="30min"
-                   data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-                  Open Booking Calendar
-                </a>
-                <a href="mailto:jarts360view@gmail.com" class="secondary-btn">Email Us</a>
-              </div>
+          <div class="booking-panel glass-card">
+            <div id="booking-request-panel">
+              <p class="mini-label accent-label">Complete your request</p>
+              <form id="booking-request-form" class="booking-form-grid">
+                <label><span>Full name</span><input id="client-full-name" name="fullName" type="text" placeholder="Client full name" required /></label>
+                <label><span>Email</span><input id="client-email" name="email" type="email" placeholder="client@email.com" required /></label>
+                <label><span>Phone</span><input id="client-phone" name="phone" type="tel" placeholder="6471234567" /></label>
+                <label><span>Property address</span><input id="property-address" name="propertyAddress" type="text" placeholder="Property address" /></label>
+                <label class="full-width"><span>Project notes</span><textarea id="client-notes" name="notes" rows="5" placeholder="Property size, access notes, preferred date, add-ons, rush delivery, staging notes..."></textarea></label>
+
+                <div class="package-summary full-width">
+                  <p class="mini-label">Selected package</p>
+                  <h3 id="request-package-summary">No package selected</h3>
+                  <div id="request-package-items" class="request-package-items"></div>
+                  <p id="request-package-total">Estimated total $0 + HST</p>
+                  <input id="request-package-summary-input" type="hidden" name="packageSummary" />
+                  <input id="request-package-total-input" type="hidden" name="displayTotal" />
+                </div>
+
+                <div class="booking-actions-row full-width">
+                  <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save Request & Open Calendar</button>
+                  <p id="booking-request-status" class="booking-request-status">Select at least one service to continue.</p>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </section>
-
-      <div id="package-builder-bar" class="package-builder-bar hidden">
-        <div class="package-info">
-          <span class="package-count">0 Items Selected</span>
-          <span class="package-total">Est: $0 + HST</span>
-        </div>
-        <button id="package-checkout-btn" class="package-checkout-btn" type="button">Review Order</button>
-      </div>
     </main>
 
     <footer class="site-footer">
-      <div class="section-shell">
-        <div class="footer-emblem">J</div>
-        <div class="footer-links">
-          <a href="#services">Services</a>
-          <a href="#portfolio">Archive</a>
-          <a href={portalLoginUrl}>Client Portal</a>
+      <div class="section-shell footer-inner">
+        <div class="footer-brand-block">
+          <div class="footer-emblem" aria-hidden="true">JA</div>
+          <div>
+            <p class="footer-brand">J Arts 360 View</p>
+            <p class="footer-copy">Real estate photography, drone media, cinematic video, and 3D tours for stronger listing presentation.</p>
+          </div>
         </div>
-        <p class="footer-legal">&copy; {new Date().getFullYear()} J ARTS 360 VIEW. ALL RIGHTS RESERVED.</p>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#services">Services</a>
+          <a href="#tours">3D Tours</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#book">Book</a>
+          <a href={portalLoginUrl} target="_blank" rel="noopener noreferrer">Client Portal</a>
+        </nav>
+        <p class="footer-legal">&copy; {new Date().getFullYear()} J Arts 360 View. All rights reserved.</p>
       </div>
     </footer>
 
-    <script type="text/javascript">
-      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", "30min", {origin:"https://app.cal.com"});
-      Cal.config = Cal.config || {};
-      Cal.config.forwardQueryParams = true;
+    <div id="lightbox-modal" class="lightbox-modal hidden" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+      <button id="lightbox-close" class="lightbox-close" aria-label="Close viewer" type="button">×</button>
+      <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Previous image" type="button">‹</button>
+      <img id="lightbox-image" src="" alt="Full-size property photo" class="lightbox-image" />
+      <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Next image" type="button">›</button>
+      <div class="lightbox-counter" id="lightbox-counter" aria-live="polite"></div>
+    </div>
 
-      Cal.ns["30min"]("floatingButton", {"calLink":"jarts/30min","config":{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}}); 
-      Cal.ns["30min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    <script is:inline>
+      (function (C, A, L) {
+        let p = function (a, ar) { a.q.push(ar); };
+        let d = C.document;
+        C.Cal = C.Cal || function () {
+          let cal = C.Cal;
+          let ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement('script')).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === 'string') {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ['initNamespace', namespace]);
+            } else {
+              p(cal, ar);
+            }
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, 'https://app.cal.com/embed/embed.js', 'init');
+      Cal('init', '30min', { origin: 'https://app.cal.com' });
+      Cal.ns['30min']('ui', { theme: 'dark', hideEventTypeDetails: false, layout: 'month_view' });
     </script>
 
-    <script>
+    <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
+        const formatCurrency = (value) => `$${Number(value).toFixed(0)}`;
 
-        // Scroll reveal
-        const revealObs = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); revealObs.unobserve(entry.target); } }); }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal-item').forEach((el) => revealObs.observe(el));
+        const nav = document.getElementById('site-nav');
+        window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
-        // Mobile Menu Nav
         const menuBtn = document.getElementById('mobile-menu-btn');
         const navEl = document.getElementById('nav-links');
         const overlay = document.getElementById('mobile-overlay');
-        
-        menuBtn?.addEventListener('click', () => { 
-          const isOpen = navEl?.classList.toggle('open'); 
-          if(overlay) overlay.classList.toggle('visible', isOpen);
-        });
-        overlay?.addEventListener('click', () => {
+        const closeMenu = () => {
           navEl?.classList.remove('open');
-          overlay.classList.remove('visible');
+          menuBtn?.classList.remove('open');
+          menuBtn?.setAttribute('aria-expanded', 'false');
+          overlay?.classList.remove('visible');
+        };
+        menuBtn?.addEventListener('click', () => {
+          const open = navEl?.classList.toggle('open');
+          menuBtn.classList.toggle('open', !!open);
+          menuBtn.setAttribute('aria-expanded', String(!!open));
+          overlay?.classList.toggle('visible', !!open);
         });
+        overlay?.addEventListener('click', closeMenu);
+        navEl?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
 
-        const nav = document.querySelector('.site-nav');
-        window.addEventListener('scroll', () => nav?.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
-
-        // ── STRICT 2-PHOTO GALLERY LOGIC ── //
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const galleryGrid = document.getElementById('gallery-grid');
-        const loadMoreWrap = document.getElementById('load-more-container');
-        const loadMoreBtn = document.getElementById('load-more-btn');
-        
-        let currentFilter = 'interior'; // Default as requested
-        let isExpanded = false;
-
-        function renderGallery() {
-          let visibleCount = 0;
-
-          galleryItems.forEach((item) => {
-            const match = currentFilter === 'all' || item.dataset.category === currentFilter;
-            
-            if (match) {
-              if (isExpanded || visibleCount < 2) {
-                item.classList.remove('hidden');
-                item.style.animation = 'none';
-                item.offsetHeight; // force reflow
-                item.style.animation = 'galleryFadeIn 0.8s ease forwards';
-                visibleCount++;
-              } else {
-                item.classList.add('hidden');
-              }
-            } else {
-              item.classList.add('hidden');
+        const revealObs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObs.unobserve(entry.target);
             }
           });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal-item').forEach((el) => revealObs.observe(el));
 
-          const totalCategoryItems = Array.from(galleryItems).filter(i => currentFilter === 'all' || i.dataset.category === currentFilter).length;
-          
-          if (!isExpanded && totalCategoryItems > 2) {
-            if (loadMoreWrap) loadMoreWrap.style.display = 'block';
-            galleryGrid?.classList.add('asymmetric-mode');
-          } else {
-            if (loadMoreWrap) loadMoreWrap.style.display = 'none';
-            galleryGrid?.classList.remove('asymmetric-mode');
-          }
-        }
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const loadMoreWrap = document.getElementById('load-more-container');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        let currentFilter = 'interior';
+
+        const applyGalleryFilter = () => {
+          const matchingItems = Array.from(galleryItems).filter((item) => currentFilter === 'all' || item.dataset.category === currentFilter);
+          galleryItems.forEach((item) => item.classList.add('hidden'));
+          matchingItems.slice(0, 2).forEach((item) => item.classList.remove('hidden'));
+          if (loadMoreWrap) loadMoreWrap.style.display = matchingItems.length > 2 ? 'flex' : 'none';
+        };
 
         filterBtns.forEach((btn) => {
           btn.addEventListener('click', () => {
             filterBtns.forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
             currentFilter = btn.dataset.filter || 'interior';
-            isExpanded = false; 
-            renderGallery();
+            applyGalleryFilter();
           });
         });
+
+        applyGalleryFilter();
 
         loadMoreBtn?.addEventListener('click', () => {
-          isExpanded = true;
-          renderGallery();
+          const matchingItems = Array.from(galleryItems).filter((item) => currentFilter === 'all' || item.dataset.category === currentFilter);
+          matchingItems.forEach((item) => item.classList.remove('hidden'));
+          loadMoreWrap?.remove();
         });
 
-        // Initialize exactly 2 interior photos on page load
-        renderGallery();
+        const lbModal = document.getElementById('lightbox-modal');
+        const lbImg = document.getElementById('lightbox-image');
+        const lbClose = document.getElementById('lightbox-close');
+        const lbPrev = document.getElementById('lightbox-prev');
+        const lbNext = document.getElementById('lightbox-next');
+        const lbCounter = document.getElementById('lightbox-counter');
+        let lbIndex = 0;
+        let lbImages = [];
 
-        // ── RESTORED BASE PACKAGE BUILDER LOGIC ── //
-        const toggleBtns = document.querySelectorAll('.toggle-service-btn');
-        const builderBar = document.getElementById('package-builder-bar');
-        const countDisplay = document.querySelector('.package-count');
-        const totalDisplay = document.querySelector('.package-total');
-        const checkoutBtn = document.getElementById('package-checkout-btn');
+        const getVisibleImages = () => Array.from(document.querySelectorAll('.lightbox-trigger:not(.hidden)')).map((el) => el.dataset.highres).filter(Boolean);
+        const updateCounter = () => { if (lbCounter) lbCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`; };
+        const openLb = (idx) => {
+          lbImages = getVisibleImages();
+          lbIndex = idx;
+          if (!lbImages[lbIndex] || !lbImg) return;
+          lbImg.src = lbImages[lbIndex];
+          lbModal?.classList.remove('hidden');
+          lbModal?.removeAttribute('aria-hidden');
+          document.body.style.overflow = 'hidden';
+          updateCounter();
+        };
+        const closeLb = () => {
+          lbModal?.classList.add('hidden');
+          lbModal?.setAttribute('aria-hidden', 'true');
+          if (lbImg) lbImg.src = '';
+          document.body.style.overflow = '';
+        };
+        const navigateLb = (dir) => {
+          lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+          if (lbImg) lbImg.src = lbImages[lbIndex];
+          updateCounter();
+        };
+        document.querySelectorAll('.lightbox-trigger').forEach((trigger, index) => trigger.addEventListener('click', () => openLb(index)));
+        lbClose?.addEventListener('click', closeLb);
+        lbPrev?.addEventListener('click', () => navigateLb(-1));
+        lbNext?.addEventListener('click', () => navigateLb(1));
+        lbModal?.addEventListener('click', (e) => { if (e.target === lbModal) closeLb(); });
 
-        let selectedServices = new Map();
+        const selectedServices = new Map();
+        const packageSummary = document.getElementById('request-package-summary');
+        const packageItems = document.getElementById('request-package-items');
+        const packageTotal = document.getElementById('request-package-total');
+        const packageSummaryInput = document.getElementById('request-package-summary-input');
+        const packageTotalInput = document.getElementById('request-package-total-input');
+        const requestStatus = document.getElementById('booking-request-status');
 
-        toggleBtns.forEach(btn => {
-          btn.addEventListener('click', function() {
-            const service = (this).dataset.service;
-            const price = parseInt((this).dataset.price || '0');
-            const btnText = this.querySelector('.btn-text');
+        const buildLineText = (name, price, config) => {
+          const details = [config.squareFootageLabel, config.propertyTypeLabel, config.turnaroundLabel, config.addonLabel]
+            .filter((value) => value && !value.startsWith('No add-on'))
+            .join(' · ');
+          return `${name} — ${details || 'Base package'} — ${formatCurrency(price)}`;
+        };
 
-            if (selectedServices.has(service)) {
-              selectedServices.delete(service);
-              this.classList.remove('selected');
-              if (btnText) btnText.textContent = 'Add to Timeline';
-            } else {
-              selectedServices.set(service, price);
-              this.classList.add('selected');
-              if (btnText) btnText.textContent = 'Remove from Timeline';
-            }
-
-            updateBuilderBar();
-          });
-        });
-
-        function updateBuilderBar() {
-          let total = 0;
-          selectedServices.forEach(price => total += price);
-          
-          if (selectedServices.size > 0) {
-            builderBar?.classList.remove('hidden');
-            if (countDisplay) countDisplay.textContent = `${selectedServices.size} Items Selected`;
-            if (totalDisplay) totalDisplay.textContent = `Est: $${total} + HST`;
-          } else {
-            builderBar?.classList.add('hidden');
+        const updatePackageUI = () => {
+          const items = Array.from(selectedServices.values());
+          const total = items.reduce((sum, item) => sum + item.price, 0);
+          if (!packageSummary || !packageItems || !packageTotal || !packageSummaryInput || !packageTotalInput) return;
+          if (!items.length) {
+            packageSummary.textContent = 'No package selected';
+            packageItems.innerHTML = '';
+            packageTotal.textContent = 'Estimated total $0 + HST';
+            packageSummaryInput.value = '';
+            packageTotalInput.value = '0';
+            if (requestStatus) requestStatus.textContent = 'Select at least one service to continue.';
+            return;
           }
-        }
+          packageSummary.textContent = `${items.length} service${items.length > 1 ? 's' : ''} selected`;
+          packageItems.innerHTML = items.map((item) => `<div class="package-line">${item.line}</div>`).join('');
+          packageTotal.textContent = `Estimated total ${formatCurrency(total)} + HST`;
+          packageSummaryInput.value = items.map((item) => item.line).join(' | ');
+          packageTotalInput.value = String(total);
+          if (requestStatus) requestStatus.textContent = 'Ready to save request and open calendar.';
+        };
 
-        checkoutBtn?.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          let notes = "Client has requested the following package:\n\n";
-          selectedServices.forEach((price, service) => {
-            notes += `- ${service} ($${price})\n`;
-          });
-          notes += `\nTotal Estimated: $${Array.from(selectedServices.values()).reduce((a, b) => a + b, 0)} + HST`;
+        document.querySelectorAll('[data-service-card]').forEach((card) => {
+          const toggleBtn = card.querySelector('[data-toggle-service]');
+          const estimateEl = card.querySelector('[data-service-estimate]');
+          const inputs = card.querySelectorAll('.service-input');
+          const serviceKey = card.dataset.serviceKey;
+          const serviceName = card.dataset.serviceName;
+          const basePrice = Number(card.dataset.basePrice || 0);
 
-          // Check if Cal.com script has loaded and push the custom payload
-          if (window.Cal && window.Cal.ns && window.Cal.ns["30min"]) {
-            window.Cal.ns["30min"]("modal", {
-              calLink: "jarts/30min",
-              config: {
-                notes: notes,
-                layout: "month_view"
-              }
+          const getConfig = () => {
+            const values = {};
+            inputs.forEach((input) => {
+              const select = input;
+              const field = select.dataset.field;
+              const label = select.options[select.selectedIndex]?.textContent || '';
+              values[field] = Number(select.value || 0);
+              values[`${field}Label`] = label;
             });
-          } else {
-            // Fallback just in case the calendar embed fails to load
-            window.location.href = "#book";
-          }
+            return values;
+          };
+
+          const computePrice = () => {
+            const config = getConfig();
+            return { config, price: basePrice + config.squareFootage + config.propertyType + config.turnaround + config.addon };
+          };
+
+          const refreshEstimate = () => {
+            const { price } = computePrice();
+            if (estimateEl) estimateEl.textContent = formatCurrency(price);
+            if (selectedServices.has(serviceKey)) {
+              const { config, price } = computePrice();
+              selectedServices.set(serviceKey, { name: serviceName, price, line: buildLineText(serviceName, price, config) });
+              updatePackageUI();
+            }
+          };
+
+          inputs.forEach((input) => input.addEventListener('change', refreshEstimate));
+          refreshEstimate();
+          toggleBtn?.addEventListener('click', () => {
+            const { config, price } = computePrice();
+            if (selectedServices.has(serviceKey)) {
+              selectedServices.delete(serviceKey);
+              toggleBtn.textContent = 'Add to Package';
+              card.classList.remove('selected');
+            } else {
+              selectedServices.set(serviceKey, { name: serviceName, price, line: buildLineText(serviceName, price, config) });
+              toggleBtn.textContent = 'Remove Service';
+              card.classList.add('selected');
+            }
+            updatePackageUI();
+          });
         });
 
+        const bookingForm = document.getElementById('booking-request-form');
+        bookingForm?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          if (!selectedServices.size) {
+            if (requestStatus) requestStatus.textContent = 'Please select at least one service before booking.';
+            return;
+          }
+          const formData = new FormData(bookingForm);
+          const payload = {
+            fullName: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            propertyAddress: formData.get('propertyAddress'),
+            notes: formData.get('notes'),
+            packageSummary: formData.get('packageSummary'),
+            displayTotal: formData.get('displayTotal'),
+            selectedServices: Array.from(selectedServices.values())
+          };
+          if (requestStatus) requestStatus.textContent = 'Saving request...';
+          try {
+            const apiBase = window.__PORTAL_API_BASE__;
+            const response = await fetch(`${apiBase}/api/public/bookings`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            let result = null;
+            try { result = await response.json(); } catch {}
+            if (!response.ok) throw new Error(result?.error || 'Unable to save booking request.');
+            if (requestStatus) requestStatus.textContent = 'Request saved. Opening calendar...';
+            const bookingReference = result?.reference || '';
+            const cal = window.Cal?.ns?.['30min'];
+            if (cal) {
+              cal('modal', {
+                calLink: window.__CAL_LINK__,
+                config: { layout: 'month_view' },
+                metadata: {
+                  reference: bookingReference,
+                  booking_reference: bookingReference,
+                  package_summary: String(payload.packageSummary || ''),
+                  display_total: String(payload.displayTotal || ''),
+                  property_address: String(payload.propertyAddress || ''),
+                  notes: String(payload.notes || ''),
+                  client_email: String(payload.email || ''),
+                  full_name: String(payload.fullName || ''),
+                  phone: String(payload.phone || '')
+                }
+              });
+            } else {
+              window.location.href = `https://cal.com/${window.__CAL_LINK__}`;
+            }
+          } catch (error) {
+            if (requestStatus) requestStatus.textContent = error.message || 'Something went wrong while saving your request.';
+          }
+        });
       });
     </script>
   </body>
