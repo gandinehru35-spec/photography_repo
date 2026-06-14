@@ -141,14 +141,13 @@ const tours = [
           <div class="hero-bg-overlay"></div>
         </div>
 
-        <div class="section-shell hero-shell">
-          <div class="hero-content-block glass-card">
+        <div class="section-shell hero-shell hero-shell-center">
+          <div class="hero-content-block hero-content-center glass-card">
             <p class="eyebrow">Guelph · GTA · Surrounding Areas</p>
-            <h1 class="section-title hero-title">Real estate media built to present every listing more clearly and professionally.</h1>
             <p class="section-copy hero-text">
-              J Arts 360 View provides real estate photography, drone coverage, cinematic video, and immersive 3D tours for agents, builders, and property owners who want a stronger marketing presentation.
+              Real estate photography, drone coverage, cinematic video, and immersive 3D tours for agents, builders, and property owners who want a stronger marketing presentation.
             </p>
-            <div class="hero-actions">
+            <div class="hero-actions hero-actions-center">
               <a href="#services" class="primary-btn btn-ripple">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Build a Package
@@ -188,63 +187,73 @@ const tours = [
             </p>
           </div>
 
-          <div class="services-grid">
-            {[
-              { key: 'photo', name: 'Listing Photography', description: 'Interior and exterior photography prepared for listing presentation.', basePrice: 120, icon: 'photo' },
-              { key: 'video', name: 'Cinematic Video', description: 'Walkthrough-style video designed to show flow, finishes, and space.', basePrice: 150, icon: 'video' },
-              { key: 'drone', name: 'Drone Aerial', description: 'Aerial coverage to show property context, lot position, and surroundings.', basePrice: 99, icon: 'drone' },
-              { key: 'tour', name: '3D Virtual Tours', description: 'Interactive tours for buyers who want to explore layout and room flow remotely.', basePrice: 200, icon: '3D' },
-              { key: 'sign', name: 'Signboard Placement', description: 'Installation and removal support for standard real estate signage.', basePrice: 50, icon: 'sign' }
-            ].map((service) => (
-              <article class="service-card reveal-item" data-service-card data-service-key={service.key} data-service-name={service.name} data-base-price={service.basePrice}>
-                <div class="service-card-head">
-                  <div class="service-icon" aria-hidden="true"><span>{service.icon}</span></div>
-                  <div>
-                    <h3>{service.name}</h3>
-                    <p class="service-price">From ${service.basePrice} <span>+ HST</span></p>
-                  </div>
-                </div>
-                <p>{service.description}</p>
-                <div class="service-config">
-                  <label><span>Square footage</span>
-                    <div class="select-wrap"><select class="service-input" data-field="squareFootage">
-                      <option value="0">Under 1,000 sq ft</option>
-                      <option value="20">1,000–1,500 sq ft</option>
-                      <option value="45">1,500–2,500 sq ft</option>
-                      <option value="80">2,500–3,500 sq ft</option>
-                      <option value="130">3,500+ sq ft</option>
-                    </select></div>
-                  </label>
-                  <label><span>Property type</span>
-                    <div class="select-wrap"><select class="service-input" data-field="propertyType">
-                      <option value="0">Residential</option>
-                      <option value="25">Commercial</option>
-                      <option value="40">Luxury / High-end</option>
-                    </select></div>
-                  </label>
-                  <label><span>Turnaround</span>
-                    <div class="select-wrap"><select class="service-input" data-field="turnaround">
-                      <option value="0">Standard (2–3 days)</option>
-                      <option value="40">Rush (next day)</option>
-                      <option value="75">Same day</option>
-                    </select></div>
-                  </label>
-                  <label><span>Add-on</span>
-                    <div class="select-wrap"><select class="service-input" data-field="addon">
-                      <option value="0">No add-on</option>
-                      <option value="35">Twilight / dusk shoot</option>
-                      <option value="50">Floor plan</option>
-                      <option value="25">Extra editing round</option>
-                    </select></div>
-                  </label>
-                </div>
-                <div class="service-footer">
-                  <p class="service-estimate-label">Estimate: <strong data-service-estimate>${service.basePrice}</strong> + HST</p>
-                  <button class="toggle-service-btn" data-toggle-service type="button">Add to Package</button>
-                </div>
-              </article>
-            ))}
-          </div>
+          <div class="services-grid services-grid-5">
+
+            <article class="service-card reveal-item" data-service-card data-service-key="photo" data-service-name="Listing Photography" data-base-price="120">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <h3>Listing Photography</h3>
+              <p class="service-price">From $120 <span>+ HST</span></p>
+              <p>Interior and exterior photography prepared for listing presentation.</p>
+              <button class="toggle-service-btn" data-toggle-service type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="btn-text">Add to Package</span>
+              </button>
+            </article>
+
+            <article class="service-card reveal-item" data-service-card data-service-key="video" data-service-name="Cinematic Video" data-base-price="150">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="m17 9 5-2v10l-5-2V9z"/></svg>
+              </div>
+              <h3>Cinematic Video</h3>
+              <p class="service-price">From $150 <span>+ HST</span></p>
+              <p>Walkthrough-style video designed to show flow, finishes, and space.</p>
+              <button class="toggle-service-btn" data-toggle-service type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="btn-text">Add to Package</span>
+              </button>
+            </article>
+
+            <article class="service-card reveal-item" data-service-card data-service-key="drone" data-service-name="Drone Aerial" data-base-price="99">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="12" rx="2.5" ry="2.5"/><path d="M5 5h3v3H5zM16 5h3v3h-3zM5 16h3v3H5zM16 16h3v3h-3z"/><path d="M7 7 9.5 9.5M14.5 9.5 17 7M7 17l2.5-2.5M14.5 14.5 17 17"/></svg>
+              </div>
+              <h3>Drone Aerial</h3>
+              <p class="service-price">From $99 <span>+ HST</span></p>
+              <p>Aerial coverage to show property context, lot position, and surroundings.</p>
+              <button class="toggle-service-btn" data-toggle-service type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="btn-text">Add to Package</span>
+              </button>
+            </article>
+
+            <article class="service-card reveal-item" data-service-card data-service-key="tour" data-service-name="3D Virtual Tours" data-base-price="200">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              </div>
+              <h3>3D Virtual Tours</h3>
+              <p class="service-price">From $200 <span>+ HST</span></p>
+              <p>Interactive tours for buyers who want to explore layout and room flow remotely.</p>
+              <button class="toggle-service-btn" data-toggle-service type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="btn-text">Add to Package</span>
+              </button>
+            </article>
+
+            <article class="service-card reveal-item" data-service-card data-service-key="sign" data-service-name="Signboard Placement" data-base-price="50">
+              <div class="service-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="8" rx="1.5"/><path d="M12 15v6M12 3v4"/></svg>
+              </div>
+              <h3>Signboard Placement</h3>
+              <p class="service-price">From $50 <span>+ HST</span></p>
+              <p>Installation and removal support for standard real estate signage.</p>
+              <button class="toggle-service-btn" data-toggle-service type="button">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span class="btn-text">Add to Package</span>
+              </button>
+            </article>
+                    </div>
         </div>
       </section>
 
@@ -361,9 +370,9 @@ const tours = [
         <div class="section-shell booking-layout">
           <div class="booking-info">
             <p class="eyebrow">Book a Shoot</p>
-            <h2 class="section-title section-title-medium">Build your package first, then open the calendar.</h2>
+            <h2 class="section-title section-title-medium">Configure your package, then open the calendar.</h2>
             <p class="section-copy booking-copy">
-              Select services above, fill in your details, and hit <em>Save Request &amp; Open Calendar</em>. Your selections and notes are saved to the portal before the booking calendar opens.
+              Select services above, fill in your details, configure property options, and hit <em>Save Request &amp; Open Calendar</em>. Everything is saved to the portal before the calendar opens.
             </p>
             <div class="contact-stack">
               <a href="tel:6477103982" class="contact-item contact-link"><span class="contact-badge">T</span><span>647 710 3982</span></a>
@@ -394,6 +403,8 @@ const tours = [
             <div id="booking-request-panel" style="display:none; width:100%;">
               <p class="mini-label accent-label">Complete your request</p>
               <form id="booking-request-form" class="booking-form-grid">
+
+                <!-- ── Contact details ── -->
                 <div class="booking-form-field">
                   <label for="client-full-name" class="booking-form-label">Full name</label>
                   <input id="client-full-name" name="fullName" type="text" class="booking-form-input" placeholder="Client full name" required />
@@ -410,10 +421,69 @@ const tours = [
                   <label for="property-address" class="booking-form-label">Property address</label>
                   <input id="property-address" name="propertyAddress" type="text" class="booking-form-input" placeholder="63 Candlewood Drive, Guelph" />
                 </div>
-                <div class="booking-form-field booking-form-full">
-                  <label for="client-notes" class="booking-form-label">Project notes</label>
-                  <textarea id="client-notes" name="notes" rows="4" class="booking-form-textarea" placeholder="Property size, preferred date, add-ons, access notes, twilight request, staging notes..."></textarea>
+
+                <!-- ── Package options (moved into form) ── -->
+                <div class="booking-form-full">
+                  <div class="booking-pkg-options-box">
+                    <p class="booking-pkg-options-title">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                      Package Options
+                    </p>
+                    <p class="booking-pkg-options-note">These apply to all selected services. Choose N/A if not applicable.</p>
+                    <div class="booking-pkg-options-grid">
+                      <label class="booking-pkg-options-label">
+                        <span>Square footage</span>
+                        <div class="select-wrap">
+                          <select id="pkg-square-footage" class="booking-select" data-pkg-field="squareFootage">
+                            <option value="0" data-label="N/A">N/A</option>
+                            <option value="0" data-label="Under 1,000 sq ft">Under 1,000 sq ft</option>
+                            <option value="20" data-label="1,000–1,500 sq ft">1,000–1,500 sq ft</option>
+                            <option value="45" data-label="1,500–2,500 sq ft">1,500–2,500 sq ft</option>
+                            <option value="80" data-label="2,500–3,500 sq ft">2,500–3,500 sq ft</option>
+                            <option value="130" data-label="3,500+ sq ft">3,500+ sq ft</option>
+                          </select>
+                        </div>
+                      </label>
+                      <label class="booking-pkg-options-label">
+                        <span>Property type</span>
+                        <div class="select-wrap">
+                          <select id="pkg-property-type" class="booking-select" data-pkg-field="propertyType">
+                            <option value="0" data-label="N/A">N/A</option>
+                            <option value="0" data-label="Residential">Residential</option>
+                            <option value="25" data-label="Commercial">Commercial</option>
+                            <option value="40" data-label="Luxury / High-end">Luxury / High-end</option>
+                          </select>
+                        </div>
+                      </label>
+                      <label class="booking-pkg-options-label">
+                        <span>Turnaround</span>
+                        <div class="select-wrap">
+                          <select id="pkg-turnaround" class="booking-select" data-pkg-field="turnaround">
+                            <option value="0" data-label="N/A">N/A</option>
+                            <option value="0" data-label="Standard (2–3 days)">Standard (2–3 days)</option>
+                            <option value="40" data-label="Rush (next day)">Rush (next day)</option>
+                            <option value="75" data-label="Same day">Same day</option>
+                          </select>
+                        </div>
+                      </label>
+                      <label class="booking-pkg-options-label">
+                        <span>Add-on</span>
+                        <div class="select-wrap">
+                          <select id="pkg-addon" class="booking-select" data-pkg-field="addon">
+                            <option value="0" data-label="N/A">N/A</option>
+                            <option value="0" data-label="No add-on">No add-on</option>
+                            <option value="35" data-label="Twilight / dusk shoot">Twilight / dusk shoot (+$35)</option>
+                            <option value="50" data-label="Floor plan">Floor plan (+$50)</option>
+                            <option value="25" data-label="Extra editing round">Extra editing round (+$25)</option>
+                          </select>
+                        </div>
+                      </label>
+                    </div>
+                    <p class="booking-pkg-estimate">Estimated total: <strong id="pkg-live-total">$0.00</strong> + HST</p>
+                  </div>
                 </div>
+
+                <!-- ── Selected package summary ── -->
                 <div class="booking-form-full booking-package-box">
                   <p class="booking-form-label">Selected package</p>
                   <h3 id="request-package-summary" class="booking-package-title">No package selected</h3>
@@ -422,6 +492,13 @@ const tours = [
                   <input id="request-package-summary-input" type="hidden" name="packageSummary" />
                   <input id="request-package-total-input" type="hidden" name="displayTotal" />
                 </div>
+
+                <!-- ── Project notes (auto-populated) ── -->
+                <div class="booking-form-field booking-form-full">
+                  <label for="client-notes" class="booking-form-label">Project notes <span class="notes-auto-badge">auto-filled · editable</span></label>
+                  <textarea id="client-notes" name="notes" rows="5" class="booking-form-textarea" placeholder="Notes will be auto-generated from your selections above..."></textarea>
+                </div>
+
                 <div class="booking-form-full booking-form-actions">
                   <button id="submit-booking-request" type="submit" class="primary-btn btn-ripple">Save request and open calendar</button>
                   <p id="booking-request-status"></p>
@@ -672,6 +749,45 @@ const tours = [
 
         function money(n) { return `$${Number(n).toFixed(2)}`; }
 
+        // ── Auto-note generator ───────────────────────────────────────────────
+        function getOptionLabel(id) {
+          const el = document.getElementById(id);
+          if (!el) return 'N/A';
+          const opt = el.options[el.selectedIndex];
+          return opt?.dataset?.label || opt?.text || 'N/A';
+        }
+
+        function buildAutoNote() {
+          if (!selectedItems.length) return '';
+          const services = selectedItems.map((i) => `${i.serviceName} (${money(i.lineTotal)})`).join(', ');
+          const sqft    = getOptionLabel('pkg-square-footage');
+          const ptype   = getOptionLabel('pkg-property-type');
+          const turn    = getOptionLabel('pkg-turnaround');
+          const addon   = getOptionLabel('pkg-addon');
+          const total   = selectedItems.reduce((s, i) => s + Number(i.lineTotal || 0), 0);
+          return `Services: ${services}
+
+Property details:
+- Square footage: ${sqft}
+- Property type: ${ptype}
+- Turnaround: ${turn}
+- Add-on: ${addon}
+
+Estimated total: ${money(total)} + HST
+
+(Auto-generated — feel free to add or edit below)`;
+        }
+
+        function autoFillNotes() {
+          const notesEl = document.getElementById('client-notes');
+          if (!notesEl) return;
+          // Only auto-fill if empty or previously auto-filled (starts with "Services:")
+          const current = notesEl.value.trim();
+          if (current === '' || current.startsWith('Services:')) {
+            notesEl.value = buildAutoNote();
+          }
+        }
+
         function renderSelectedPackage() {
           const total = selectedItems.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0);
           if (selectedItems.length === 0) {
@@ -703,68 +819,73 @@ const tours = [
           if (totalEl) totalEl.textContent = `Estimated total: ${money(total)} + HST`;
           if (summaryInput) summaryInput.value = selectedItems.map((i) => i.serviceName).join(' + ');
           if (totalInput) totalInput.value = String(total);
+          autoFillNotes();
         }
 
+        // ── Shared package dropdowns ──────────────────────────────────────────
+        const pkgDropdowns = document.querySelectorAll('.booking-select');
+        const pkgLiveTotal = document.getElementById('pkg-live-total');
+
+        function getSharedAddon() {
+          let addon = 0;
+          pkgDropdowns.forEach((sel) => { addon += Number(sel.value || 0); });
+          return addon;
+        }
+
+        function updatePkgLiveTotal() {
+          if (!pkgLiveTotal) return;
+          const addon = getSharedAddon();
+          const total = selectedItems.reduce((s, item) => {
+            const base = Number(document.querySelector(`[data-service-key="${item.serviceCode}"]`)?.dataset.basePrice || 0);
+            return s + base + addon;
+          }, 0);
+          pkgLiveTotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function recomputeAllPrices() {
+          const addon = getSharedAddon();
+          selectedItems.forEach((item) => {
+            const base = Number(document.querySelector(`[data-service-key="${item.serviceCode}"]`)?.dataset.basePrice || item.unitPrice);
+            item.lineTotal = base + addon;
+            item.unitPrice = base + addon;
+          });
+          renderSelectedPackage();
+          updatePkgLiveTotal();
+          autoFillNotes();
+        }
+
+        pkgDropdowns.forEach((sel) => sel.addEventListener('change', recomputeAllPrices));
+
+        // ── Service card toggle ────────────────────────────────────────────────
         document.querySelectorAll('[data-service-card]').forEach((card) => {
           const toggleBtn = card.querySelector('[data-toggle-service]');
-          const estimateEl = card.querySelector('[data-service-estimate]');
-          const inputs = card.querySelectorAll('.service-input');
           const serviceKey = card.dataset.serviceKey || '';
           const serviceName = card.dataset.serviceName || '';
           const basePrice = Number(card.dataset.basePrice || 0);
 
-          function computePrice() {
-            let price = basePrice;
-            inputs.forEach((input) => { price += Number(input.value || 0); });
-            return price;
-          }
-
-          function refreshEstimate() {
-            const price = computePrice();
-            if (estimateEl) estimateEl.textContent = `$${price}`;
-            const idx = selectedItems.findIndex((i) => i.serviceCode === serviceKey);
-            if (idx !== -1) {
-              selectedItems[idx].lineTotal = price;
-              selectedItems[idx].unitPrice = price;
-              renderSelectedPackage();
-            }
-          }
-
-          inputs.forEach((input) => input.addEventListener('change', refreshEstimate));
-
           toggleBtn?.addEventListener('click', () => {
-            const price = computePrice();
+            const addon = getSharedAddon();
+            const price = basePrice + addon;
             const idx = selectedItems.findIndex((i) => i.serviceCode === serviceKey);
             if (idx !== -1) {
               selectedItems.splice(idx, 1);
               card.classList.remove('selected');
-              if (toggleBtn) {
-                toggleBtn.classList.remove('selected');
-                const btnText = toggleBtn.querySelector('.btn-text');
-                if (btnText) btnText.textContent = 'Add to Package';
-                else toggleBtn.textContent = 'Add to Package';
-                const iconEl = toggleBtn.querySelector('svg');
-                if (iconEl) iconEl.innerHTML = '<path d="M12 5v14M5 12h14"/>';
-              }
+              toggleBtn.classList.remove('selected');
+              const btnText = toggleBtn.querySelector('.btn-text');
+              if (btnText) btnText.textContent = 'Add to Package';
+              const iconEl = toggleBtn.querySelector('svg');
+              if (iconEl) iconEl.innerHTML = '<path d="M12 5v14M5 12h14"/>';
             } else {
-              selectedItems.push({
-                serviceCode: serviceKey,
-                serviceName,
-                unitPrice: price,
-                lineTotal: price,
-                quantity: 1
-              });
+              selectedItems.push({ serviceCode: serviceKey, serviceName, unitPrice: price, lineTotal: price, quantity: 1 });
               card.classList.add('selected');
-              if (toggleBtn) {
-                toggleBtn.classList.add('selected');
-                const btnText = toggleBtn.querySelector('.btn-text');
-                if (btnText) btnText.textContent = 'Remove Service';
-                else toggleBtn.textContent = 'Remove Service';
-                const iconEl = toggleBtn.querySelector('svg');
-                if (iconEl) iconEl.innerHTML = '<path d="M5 12h14"/>';
-              }
+              toggleBtn.classList.add('selected');
+              const btnText = toggleBtn.querySelector('.btn-text');
+              if (btnText) btnText.textContent = 'Remove Service';
+              const iconEl = toggleBtn.querySelector('svg');
+              if (iconEl) iconEl.innerHTML = '<path d="M5 12h14"/>';
             }
             renderSelectedPackage();
+            updatePkgLiveTotal();
           });
         });
 
@@ -810,7 +931,7 @@ const tours = [
           const email = document.getElementById('client-email')?.value?.trim() || '';
           const phone = document.getElementById('client-phone')?.value?.trim() || '';
           const propertyAddress = document.getElementById('property-address')?.value?.trim() || '';
-          const notes = document.getElementById('client-notes')?.value?.trim() || '';
+          const notes = document.getElementById('client-notes')?.value?.trim() || buildAutoNote();
           const packageSummary = summaryInput?.value || selectedItems.map((item) => item.serviceName).join(' + ');
           const displayTotal = Number(totalInput?.value || 0);
 
